@@ -374,12 +374,17 @@
     img.loading = 'lazy';
     img.onerror = function () { card.classList.add('image-error'); };
     card.appendChild(img);
-    if (item.title || item.category) {
+    var noCaptionAreas = ['package', 'badge', 'emoji', 'move_emoji', 'ogq', 'gif_talk'];
+    var showCaption = noCaptionAreas.indexOf(safe(area.area_id)) === -1;
+
+    if (showCaption && (item.title || item.category)) {
       var cap = el('figcaption');
-      cap.innerHTML = (item.title ? '<strong>' + esc(item.title) + '</strong>' : '') + (!item.title && item.category ? '<strong>' + esc(item.category) + '</strong>' : '');
+      cap.innerHTML =
+        (item.title ? '<strong>' + esc(item.title) + '</strong>' : '') +
+        (!item.title && item.category ? '<strong>' + esc(item.category) + '</strong>' : '');
       card.appendChild(cap);
     }
-    return card;
+        return card;
   }
 
 
