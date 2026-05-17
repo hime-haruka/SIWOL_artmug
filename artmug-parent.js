@@ -1,7 +1,9 @@
 (function () {
   const IFRAME_ORIGIN = 'https://siwol-artmug.netlify.app';
+  const IFRAME_HOST = 'siwol-artmug.netlify.app';
 
   let lastHeight = 0;
+  let neutralizeTimer = null;
 
   function injectStyle() {
     if (document.getElementById('syura-artmug-style')) return;
@@ -24,19 +26,20 @@
 
 #detailViews [name="stage"]{
   width:100%;
-  overflow:visible;
+  overflow:visible!important;
 }
 
 #detailViews [name="am-root"] iframe,
-[name="am-root"] iframe{
-  display:block;
+[name="am-root"] iframe,
+iframe[src*="siwol-artmug.netlify.app"]{
+  display:block!important;
   width:100%!important;
-  max-width:1180px;
-  min-height:700px;
+  max-width:1180px!important;
+  min-height:700px!important;
   height:700px;
-  margin:0 auto;
-  border:0;
-  overflow:hidden;
+  margin:0 auto!important;
+  border:0!important;
+  overflow:hidden!important;
 }
 `;
 
@@ -91,10 +94,32 @@
     );
   }
 
-  function getIframe() {
-    return document.querySelector(
-      '#detailViews [name="am-root"] iframe,[name="am-root"] iframe'
+  function isTargetIframe(iframe) {
+    if (!iframe) return false;
+
+    const src = iframe.getAttribute('src') || '';
+
+    return (
+      src.indexOf(IFRAME_HOST) > -1 ||
+      iframe.closest('[name="am-root"]') ||
+      iframe.closest('#detailViews')
     );
+  }
+
+  function getIframe() {
+    const direct = document.querySelector(
+      'iframe[src*="siwol-artmug.netlify.app"]'
+    );
+
+    if (direct) return direct;
+
+    const candidates = Array.from(
+      document.querySelectorAll(
+        '#detailViews [name="am-root"] iframe,[name="am-root"] iframe,#detailViews iframe,iframe'
+      )
+    );
+
+    return candidates.find(isTargetIframe) || null;
   }
 
   function resizeIframe(height) {
@@ -103,13 +128,18 @@
 
     const nextHeight = Math.max(700, Math.ceil(Number(height) || 0));
 
-    if (Math.abs(nextHeight - lastHeight) < 4) return;
+    if (Math.abs(nextHeight - lastHeight) < 4) {
+      sendViewportToIframe();
+      return;
+    }
 
     lastHeight = nextHeight;
     iframe.style.height = nextHeight + 'px';
+    iframe.setAttribute('scrolling', 'no');
 
     requestAnimationFrame(sendViewportToIframe);
     setTimeout(sendViewportToIframe, 80);
+    setTimeout(sendViewportToIframe, 260);
   }
 
   function sendViewportToIframe() {
@@ -195,6 +225,37 @@
     });
   }
 
+  function watchIframeCreation() {
+    if (window.__syuraArtmugMutationBind) return;
+    window.__syuraArtmugMutationBind = true;
+
+    const mo = new MutationObserver(() => {
+      scheduleNeutralize();
+      setTimeout(sendViewportToIframe, 80);
+    });
+
+    mo.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['src', 'style', 'class']
+    });
+
+    let count = 0;
+    const interval = setInterval(() => {
+      count += 1;
+      neutralize();
+      sendViewportToIframe();
+
+      if (count > 40) clearInterval(interval);
+    }, 500);
+  }
+
+  function scheduleNeutralize() {
+    clearTimeout(neutralizeTimer);
+    neutralizeTimer = setTimeout(neutralize, 60);
+  }
+
   function neutralize() {
     injectStyle();
     killButtons();
@@ -202,16 +263,39 @@
     unlockDetail();
     hardBlockClicks();
     bindMessages();
+
+    const iframe = getIframe();
+
+    if (iframe) {
+      iframe.style.overflow = 'hidden';
+      iframe.setAttribute('scrolling', 'no');
+
+      if (!iframe.dataset.syuraLoadBound) {
+        iframe.dataset.syuraLoadBound = '1';
+        iframe.addEventListener('load', () => {
+          setTimeout(sendViewportToIframe, 80);
+          setTimeout(sendViewportToIframe, 300);
+          setTimeout(sendViewportToIframe, 1000);
+        });
+      }
+    }
+
     sendViewportToIframe();
   }
 
-  if (document.readyState !== 'loading') {
+  function boot() {
     neutralize();
-  } else {
-    document.addEventListener('DOMContentLoaded', neutralize);
+    watchIframeCreation();
+
+    setTimeout(neutralize, 300);
+    setTimeout(neutralize, 1000);
+    setTimeout(neutralize, 2000);
+    setTimeout(neutralize, 4000);
   }
 
-  setTimeout(neutralize, 300);
-  setTimeout(neutralize, 1000);
-  setTimeout(neutralize, 2000);
+  if (document.readyState !== 'loading') {
+    boot();
+  } else {
+    document.addEventListener('DOMContentLoaded', boot);
+  }
 })();
