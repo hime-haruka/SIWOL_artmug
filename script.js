@@ -458,21 +458,49 @@
   function renderGroupedMoreImages(images, area) {
     var wrap = el('div', 'package-more-groups generic-more-groups');
     if (!images.length) return wrap;
+
+    var areaId = safe(area.area_id);
+    var categoryMode = ['dona_image', 'overlay', 'v_animal', 'v_nyah'].indexOf(areaId) > -1;
+
     var groups = images.reduce(function (acc, item) {
-      var key = workGroupKey(item);
+      var key;
+      if (categoryMode) {
+        key = safe(item.category) || '기타 샘플';
+      } else {
+        key = workGroupKey(item);
+      }
       if (!acc[key]) acc[key] = [];
       acc[key].push(item);
       return acc;
     }, {});
-    Object.keys(groups).sort(function (a, b) {
-      return latestTime(groups[b]) - latestTime(groups[a]);
-    }).forEach(function (key) {
+
+    var keys = Object.keys(groups);
+
+    if (areaId === 'v_animal' || areaId === 'v_nyah') {
+      keys.sort(function (a, b) {
+        if (a === '표정 샘플' && b !== '표정 샘플') return -1;
+        if (b === '표정 샘플' && a !== '표정 샘플') return 1;
+        return latestTime(groups[b]) - latestTime(groups[a]);
+      });
+    } else {
+      keys.sort(function (a, b) {
+        return latestTime(groups[b]) - latestTime(groups[a]);
+      });
+    }
+
+    keys.forEach(function (key) {
       var group = el('section', 'package-sample-group generic-sample-group');
       var sorted = sortGroupItems(groups[key], area);
-      group.innerHTML = '<h4>' + esc(workGroupTitle(key)) + '</h4>';
-      group.appendChild(renderImageGrid(sorted, area, { keepOrder: true, className: 'more-images' + (safe(area.area_id) === 'ld_illust' ? ' show-captions' : ''), cols: sampleColumns(sorted.length, mainColumns(area)) }));
+      var title = categoryMode ? key : workGroupTitle(key);
+      group.innerHTML = '<h4>' + esc(title) + '</h4>';
+      group.appendChild(renderImageGrid(sorted, area, {
+        keepOrder: true,
+        className: 'more-images show-captions',
+        cols: sampleColumns(sorted.length, mainColumns(area))
+      }));
       wrap.appendChild(group);
     });
+
     return wrap;
   }
 
@@ -702,11 +730,28 @@
 
   function renderPortfolioImages(area) {
     var isActive = boolValue(area.active);
-    var images = sortLatest(portfolioState.images.filter(function (item) { return safe(item.area_id) === safe(area.area_id) && safe(item.image); }));
+    var areaId = safe(area.area_id);
+    var images = sortLatest(portfolioState.images.filter(function (item) {
+      return safe(item.area_id) === areaId && safe(item.image);
+    }));
+
     var mainCount = Math.max(1, Number(area.c_main || 1));
     var cols = mainColumns(area);
-    var checked = sortLatest(images.filter(function (item) { return boolValue(item.thumb); }));
-    var mains;
+    var checked = sortLatest(images.filter(function (item) {
+      return boolValue(item.thumb);
+    }));
+
+    var mains = checked.length ? checked.slice(0, mainCount) : images.slice(0, mainCount);
+    var more = sortLatest(images.filter(function (item) {
+      return !boolValue(item.thumb);
+    }));
+
+    if (!more.length && images.length > mains.length) {
+      more = sortLatest(images.filter(function (item) {
+        return mains.indexOf(item) === -1;
+      }));
+    }
+
     var outer = el('div', 'portfolio-samples');
 
     if (!isActive) {
@@ -717,60 +762,60 @@
       return outer;
     }
 
-    if (safe(area.area_id) === 'gif_talk') {
+    if (areaId === 'gif_talk') {
       outer.appendChild(renderGifTalkCards(images, area));
       return outer;
     }
 
-    if (safe(area.area_id) === 'dona_image') {
-      return renderDonaImagePortfolio(area, images, checked, cols);
-    }
-
-    if (safe(area.area_id) === 'overlay' || safe(area.area_id) === 'v_animal' || safe(area.area_id) === 'v_nyah') {
-      return renderCategorizedPortfolioImages(area, images, checked, mainCount, cols);
-    }
-
-    if (safe(area.area_id) === 'package') {
-      mains = getPackageMainImages(checked);
-      if (!mains.length) mains = getPackageMainImages(images);
-      if (!mains.length) {
-        var emptyPackage = el('div', 'portfolio-images balanced-images');
-        emptyPackage.style.setProperty('--portfolio-cols', cols);
-        emptyPackage.innerHTML = '<div class="portfolio-ready">등록된 샘플 이미지가 없습니다.</div>';
-        outer.appendChild(emptyPackage);
-        return outer;
+    if (areaId === 'package') {
+      var packageMains = getPackageMainImages(checked);
+      if (!packageMains.length) packageMains = getPackageMainImages(images);
+      if (!packageMains.length) {
+        outer.appendChild(renderImageGrid([], area, { cols: cols }));
+      } else {
+        outer.appendChild(renderPackageMainImages(images, packageMains));
       }
-      outer.appendChild(renderPackageMainImages(images, mains));
+      var packageKeys = new Set(packageMains.map(itemKey));
+      more = sortLatest(images.filter(function (item) {
+        return !packageKeys.has(itemKey(item));
+      }));
+    } else if (areaId === 'dona_image') {
+      var donaMains = checked.length ? checked.slice(0, mainCount) : images.slice(0, mainCount);
+      outer.appendChild(renderImageGrid(donaMains, area, {
+        keepOrder: true,
+        cols: Math.max(1, Math.min(cols, donaMains.length || cols)),
+        className: 'dona-main-grid show-captions'
+      }));
+    } else if (areaId === 'v_animal' || areaId === 'v_nyah') {
+      outer.appendChild(renderImageGrid(mains, area, {
+        keepOrder: true,
+        cols: 1,
+        className: 'vtuber-main-grid show-captions'
+      }));
     } else {
-      mains = (checked.length ? checked : images).slice(0, mainCount);
-      if (!mains.length) {
-        var emptyWrap = el('div', 'portfolio-images balanced-images');
-        emptyWrap.style.setProperty('--portfolio-cols', cols);
-        emptyWrap.innerHTML = '<div class="portfolio-ready">등록된 샘플 이미지가 없습니다.</div>';
-        outer.appendChild(emptyWrap);
-        return outer;
-      }
-      if (safe(area.area_id) === 'emoji') {
-        var emojiGuide = renderEmojiSizeGuide(mains[0]);
-        if (emojiGuide) outer.appendChild(emojiGuide);
-      }
-      outer.appendChild(renderImageGrid(sortByDateThenOrder(mains), area, { keepOrder: true, cols: cols, className: safe(area.area_id) === 'ld_illust' ? 'show-captions' : '' }));
+      var mainClass = (areaId === 'ld_illust' || areaId === 'overlay') ? 'show-captions' : '';
+      outer.appendChild(renderImageGrid(mains, area, {
+        keepOrder: true,
+        cols: cols,
+        className: mainClass
+      }));
     }
 
-    var mainKeys = new Set(mains.map(itemKey));
-    var more = sortLatest(images.filter(function (item) { return !mainKeys.has(itemKey(item)); }));
     if (more.length) {
       var details = el('details', 'portfolio-more');
       var summary = el('summary', '', '샘플 더보기');
       details.appendChild(summary);
-      if (safe(area.area_id) === 'package') {
+
+      if (areaId === 'package') {
         details.appendChild(renderPackageMoreImages(more));
       } else {
         details.appendChild(renderGroupedMoreImages(more, area));
       }
+
       details.addEventListener('toggle', sendHeight);
       outer.appendChild(details);
     }
+
     return outer;
   }
 
@@ -784,7 +829,9 @@
     var groups = groupedBy(rows, 'group');
     Object.keys(groups).forEach(function (groupName) {
       var group = el('div', 'price-group');
-      if (groupName !== '기본') group.appendChild(el('h4', '', groupName));
+      if (groupName !== '기본') {
+        group.appendChild(el('h4', 'sample-group-title', groupName));
+      }
       var grid = el('div', 'price-grid');
       groups[groupName].forEach(function (row) {
         var item = el('article', 'price-card');
@@ -802,7 +849,7 @@
     section.setAttribute('data-area-id', safe(area.area_id));
     if (!boolValue(area.active)) section.setAttribute('data-ready-tooltip', '오픈 준비중입니다.');
     var head = el('div', 'portfolio-detail-head');
-    head.innerHTML = '<div><strong>' + esc(area.title || '') + '</strong>' + (area.desc ? '<p>' + esc(area.desc) + '</p>' : '') + '</div>' + (!boolValue(area.active) ? '<em>오픈 준비중입니다.</em>' : '');
+    head.innerHTML = '<div><strong>' + esc(area.title || '') + '</strong>' + (area.desc ? '<p>' + '♥ ' + esc(area.desc) + ' ♥' + '</p>' : '') + '</div>' + (!boolValue(area.active) ? '<em>오픈 준비중입니다.</em>' : '');
     section.appendChild(head);
     section.appendChild(renderPortfolioImages(area));
     section.appendChild(renderPriceRows(area));
