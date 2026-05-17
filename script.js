@@ -1073,3 +1073,135 @@
 })();
 
 })();
+
+
+/* v51: parent-created floating menu bridge for iframe embed */
+(function(){
+  if (window.__siwolParentMenuBridgeV51) return;
+  window.__siwolParentMenuBridgeV51 = true;
+
+  var lastViewport = null;
+  var lastActiveId = '';
+
+  function safeText(value){
+    return String(value == null ? '' : value).replace(/\s+/g, ' ').trim();
+  }
+
+  function getSections(){
+    return Array.prototype.slice.call(document.querySelectorAll('[data-nav-title][id]')).map(function(section){
+      return {
+        id: section.id,
+        title: safeText(section.getAttribute('data-nav-title')),
+        targetY: getTargetY(section)
+      };
+    }).filter(function(item){
+      return item.id && item.title;
+    });
+  }
+
+  function getTargetY(target){
+    if (!target) return 0;
+    return Math.max(0, Math.round(target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0)));
+  }
+
+  function sendNavItems(){
+    window.parent.postMessage({
+      source: 'syura-css',
+      type: 'SYURA_NAV_ITEMS',
+      items: getSections()
+    }, '*');
+  }
+
+  function sendScrollTarget(sectionId, navHeight){
+    var target = document.getElementById(sectionId);
+    if (!target) return;
+    window.parent.postMessage({
+      source: 'syura-css',
+      type: 'SYURA_PARENT_SCROLL_TO',
+      sectionId: sectionId,
+      targetY: getTargetY(target),
+      navHeight: Number(navHeight || 0)
+    }, '*');
+  }
+
+  function sendActive(sectionId){
+    if (!sectionId || sectionId === lastActiveId) return;
+    lastActiveId = sectionId;
+    window.parent.postMessage({
+      source: 'syura-css',
+      type: 'SYURA_ACTIVE_SECTION',
+      sectionId: sectionId
+    }, '*');
+  }
+
+  function syncActiveFromParentViewport(){
+    if (!lastViewport) return;
+    var sections = getSections();
+    if (!sections.length) return;
+
+    var parentViewY = Number(lastViewport.scrollY || 0);
+    var iframeTop = Number(lastViewport.iframeTop || 0) + parentViewY;
+    var viewportLineInIframe = parentViewY - iframeTop + 180;
+
+    var active = sections[0];
+    sections.forEach(function(item){
+      if (item.targetY <= viewportLineInIframe) active = item;
+    });
+    sendActive(active.id);
+  }
+
+  function handleParentMenuMessage(event){
+    var data = event.data || {};
+    if (data.source !== 'syura-artmug-parent') return;
+
+    if (data.type === 'SYURA_PARENT_REQUEST_NAV') {
+      sendNavItems();
+      syncActiveFromParentViewport();
+      return;
+    }
+
+    if (data.type === 'SYURA_PARENT_NAV_TO') {
+      sendScrollTarget(data.sectionId, data.navHeight);
+      sendActive(data.sectionId);
+      return;
+    }
+
+    if (data.type === 'SYURA_PARENT_VIEWPORT') {
+      lastViewport = data;
+      syncActiveFromParentViewport();
+    }
+  }
+
+  window.addEventListener('message', handleParentMenuMessage);
+  window.addEventListener('load', function(){
+    [80,250,700,1400,2500].forEach(function(ms){ setTimeout(sendNavItems, ms); });
+  });
+  window.addEventListener('resize', function(){
+    sendNavItems();
+    setTimeout(sendNavItems, 240);
+  });
+
+  document.addEventListener('toggle', function(){
+    [40,180,420].forEach(function(ms){ setTimeout(sendNavItems, ms); });
+  }, true);
+
+  if ('ResizeObserver' in window) {
+    var ro = new ResizeObserver(function(){ sendNavItems(); syncActiveFromParentViewport(); });
+    if (document.body) ro.observe(document.body);
+  }
+
+  if ('MutationObserver' in window) {
+    var mo = new MutationObserver(function(){
+      sendNavItems();
+      syncActiveFromParentViewport();
+    });
+    mo.observe(document.documentElement || document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['id','data-nav-title','style','class','open']
+    });
+  }
+
+  setTimeout(sendNavItems, 300);
+})();
