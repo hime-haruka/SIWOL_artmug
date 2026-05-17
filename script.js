@@ -980,4 +980,96 @@
   window.addEventListener('load', loadAll);
   window.addEventListener('resize', sendHeight);
   if ('ResizeObserver' in window) new ResizeObserver(sendHeight).observe(document.body);
+
+/* v50: robust iframe height sender */
+(function(){
+  if (window.__siwolHeightSenderV50) return;
+  window.__siwolHeightSenderV50 = true;
+
+  function siwolGetHeight(){
+    var body = document.body;
+    var html = document.documentElement;
+
+    return Math.max(
+      body ? body.scrollHeight : 0,
+      html ? html.scrollHeight : 0,
+      body ? body.offsetHeight : 0,
+      html ? html.offsetHeight : 0,
+      body ? body.getBoundingClientRect().height : 0,
+      html ? html.getBoundingClientRect().height : 0
+    );
+  }
+
+  function siwolSendHeight(){
+    window.parent.postMessage({
+      source:'syura-css',
+      type:'SYURA_IFRAME_HEIGHT',
+      height:siwolGetHeight()
+    }, '*');
+  }
+
+  function siwolSendReady(){
+    window.parent.postMessage({
+      source:'syura-css',
+      type:'SYURA_IFRAME_READY'
+    }, '*');
+    siwolSendHeight();
+  }
+
+  window.addEventListener('load', function(){
+    siwolSendReady();
+    [50,150,350,700,1200,2000,3500].forEach(function(ms){
+      setTimeout(siwolSendHeight, ms);
+    });
+  });
+
+  window.addEventListener('resize', function(){
+    siwolSendHeight();
+    setTimeout(siwolSendHeight, 200);
+  });
+
+  document.addEventListener('toggle', function(e){
+    if(e.target && e.target.tagName === 'DETAILS'){
+      [30,120,260,600].forEach(function(ms){
+        setTimeout(siwolSendHeight, ms);
+      });
+    }
+  }, true);
+
+  document.addEventListener('click', function(){
+    requestAnimationFrame(siwolSendHeight);
+    setTimeout(siwolSendHeight, 240);
+  }, true);
+
+  if ('ResizeObserver' in window) {
+    var ro = new ResizeObserver(function(){
+      siwolSendHeight();
+    });
+    if (document.documentElement) ro.observe(document.documentElement);
+    if (document.body) ro.observe(document.body);
+  }
+
+  if ('MutationObserver' in window) {
+    var mo = new MutationObserver(function(){
+      siwolSendHeight();
+    });
+    mo.observe(document.documentElement || document.body, {
+      childList:true,
+      subtree:true,
+      attributes:true,
+      attributeFilter:['open','style','class']
+    });
+  }
+
+  setInterval(siwolSendHeight, 1500);
+
+  if (document.readyState !== 'loading') {
+    siwolSendReady();
+    setTimeout(siwolSendHeight, 100);
+    setTimeout(siwolSendHeight, 500);
+  } else {
+    document.addEventListener('DOMContentLoaded', siwolSendReady);
+  }
+})();
+
 })();

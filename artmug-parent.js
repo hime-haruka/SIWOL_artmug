@@ -1,36 +1,35 @@
 (function () {
   const IFRAME_ORIGIN = 'https://siwol-artmug.netlify.app';
-  const IFRAME_HOST = 'siwol-artmug.netlify.app';
+  const IFRAME_SELECTOR = 'section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"], [name="am-root"] iframe[src*="siwol-artmug.netlify.app"], iframe[src*="siwol-artmug.netlify.app"]';
 
   let lastHeight = 0;
-  let neutralizeTimer = null;
+  let retryTimer = null;
 
   function injectStyle() {
-    if (document.getElementById('syura-artmug-style')) return;
+    if (document.getElementById('siwol-artmug-parent-style')) return;
 
     const style = document.createElement('style');
-    style.id = 'syura-artmug-style';
-
+    style.id = 'siwol-artmug-parent-style';
     style.textContent = `
-#detailViews [name="am-root"]{
+section[name="am-root"],
+[name="am-root"]{
+  display:block!important;
   text-align:start!important;
   padding:0!important;
+  margin:0 auto!important;
   line-height:normal!important;
-}
-
-#detailViews [name="am-root"] *{
-  padding:0;
-  margin:0;
-  box-sizing:border-box;
-}
-
-#detailViews [name="stage"]{
-  width:100%;
   overflow:visible!important;
 }
 
-#detailViews [name="am-root"] iframe,
-[name="am-root"] iframe,
+section[name="am-root"] [name="stage"],
+[name="am-root"] [name="stage"]{
+  display:block!important;
+  width:100%!important;
+  overflow:visible!important;
+}
+
+section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],
+[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],
 iframe[src*="siwol-artmug.netlify.app"]{
   display:block!important;
   width:100%!important;
@@ -42,129 +41,64 @@ iframe[src*="siwol-artmug.netlify.app"]{
   overflow:hidden!important;
 }
 `;
-
     document.head.appendChild(style);
   }
 
-  function killButtons(root = document) {
-    root
-      .querySelectorAll('.btn_open_btn,.btn_open,.btn_close')
-      .forEach(el => el.remove());
+  function getIframe() {
+    return document.querySelector(IFRAME_SELECTOR);
   }
 
-  function unlockDetail() {
+  function unlockArtmugDetail() {
     const box = document.querySelector('.detailinfo');
-    if (!box) return;
+    if (box) {
+      box.classList.remove('showstep1');
+      box.style.maxHeight = 'none';
+      box.style.overflow = 'visible';
+    }
 
-    box.classList.remove('showstep1');
-    box.style.maxHeight = 'none';
-    box.style.overflow = 'visible';
-
-    const content = box.querySelector('.showcontent');
+    const content = document.querySelector('.detailinfo .showcontent');
     if (content) {
       content.style.maxHeight = 'none';
       content.style.overflow = 'visible';
     }
-  }
 
-  function stripListeners() {
     document
       .querySelectorAll('.btn_open_btn,.btn_open,.btn_close')
-      .forEach(btn => {
-        const clone = btn.cloneNode(true);
-        if (btn.parentNode) btn.parentNode.replaceChild(clone, btn);
-      });
+      .forEach(el => el.remove());
   }
 
-  function hardBlockClicks() {
-    if (window.__syuraHardBlockClicks) return;
-    window.__syuraHardBlockClicks = true;
-
-    document.addEventListener(
-      'click',
-      e => {
-        const bad = e.target.closest('.btn_open_btn,.btn_open,.btn_close');
-        if (bad) {
-          e.stopImmediatePropagation();
-          e.stopPropagation();
-          e.preventDefault();
-        }
-      },
-      true
-    );
-  }
-
-  function isTargetIframe(iframe) {
-    if (!iframe) return false;
-
-    const src = iframe.getAttribute('src') || '';
-
-    return (
-      src.indexOf(IFRAME_HOST) > -1 ||
-      iframe.closest('[name="am-root"]') ||
-      iframe.closest('#detailViews')
-    );
-  }
-
-  function getIframe() {
-    const direct = document.querySelector(
-      'iframe[src*="siwol-artmug.netlify.app"]'
-    );
-
-    if (direct) return direct;
-
-    const candidates = Array.from(
-      document.querySelectorAll(
-        '#detailViews [name="am-root"] iframe,[name="am-root"] iframe,#detailViews iframe,iframe'
-      )
-    );
-
-    return candidates.find(isTargetIframe) || null;
-  }
-
-  function resizeIframe(height) {
+  function setIframeHeight(height) {
     const iframe = getIframe();
     if (!iframe) return;
 
-    const nextHeight = Math.max(700, Math.ceil(Number(height) || 0));
+    const next = Math.max(700, Math.ceil(Number(height) || 0));
 
-    if (Math.abs(nextHeight - lastHeight) < 4) {
-      sendViewportToIframe();
-      return;
-    }
-
-    lastHeight = nextHeight;
-    iframe.style.height = nextHeight + 'px';
+    iframe.style.height = next + 'px';
+    iframe.height = String(next);
+    iframe.setAttribute('height', String(next));
     iframe.setAttribute('scrolling', 'no');
 
-    requestAnimationFrame(sendViewportToIframe);
-    setTimeout(sendViewportToIframe, 80);
-    setTimeout(sendViewportToIframe, 260);
+    if (Math.abs(next - lastHeight) >= 4) {
+      lastHeight = next;
+    }
+
+    sendViewport();
   }
 
-  function sendViewportToIframe() {
+  function sendViewport() {
     const iframe = getIframe();
     if (!iframe || !iframe.contentWindow) return;
 
     const rect = iframe.getBoundingClientRect();
 
-    iframe.contentWindow.postMessage(
-      {
-        source: 'syura-artmug-parent',
-        type: 'SYURA_PARENT_VIEWPORT',
-        iframeTop: rect.top,
-        iframeHeight: rect.height,
-        viewportHeight:
-          window.innerHeight ||
-          document.documentElement.clientHeight ||
-          0,
-        scrollY:
-          window.scrollY ||
-          window.pageYOffset ||
-          0
-      },
-      IFRAME_ORIGIN
-    );
+    iframe.contentWindow.postMessage({
+      source: 'syura-artmug-parent',
+      type: 'SYURA_PARENT_VIEWPORT',
+      iframeTop: rect.top,
+      iframeHeight: rect.height,
+      viewportHeight: window.innerHeight || document.documentElement.clientHeight || 0,
+      scrollY: window.scrollY || window.pageYOffset || 0
+    }, IFRAME_ORIGIN);
   }
 
   function scrollParentTo(targetY, navHeight) {
@@ -172,30 +106,19 @@ iframe[src*="siwol-artmug.netlify.app"]{
     if (!iframe) return;
 
     const rect = iframe.getBoundingClientRect();
-    const iframePageTop =
-      (window.scrollY || window.pageYOffset || 0) + rect.top;
-
-    const y = Math.max(
-      0,
-      iframePageTop +
-        Number(targetY || 0) -
-        Number(navHeight || 0) -
-        12
-    );
+    const iframeTop = (window.scrollY || window.pageYOffset || 0) + rect.top;
 
     window.scrollTo({
-      top: y,
+      top: Math.max(0, iframeTop + Number(targetY || 0) - Number(navHeight || 0) - 12),
       behavior: 'smooth'
     });
 
-    setTimeout(sendViewportToIframe, 80);
-    setTimeout(sendViewportToIframe, 360);
-    setTimeout(sendViewportToIframe, 900);
+    [80, 300, 800].forEach(ms => setTimeout(sendViewport, ms));
   }
 
   function bindMessages() {
-    if (window.__syuraArtmugMessageBind) return;
-    window.__syuraArtmugMessageBind = true;
+    if (window.__siwolParentMessageBind) return;
+    window.__siwolParentMessageBind = true;
 
     window.addEventListener('message', e => {
       if (e.origin !== IFRAME_ORIGIN) return;
@@ -204,13 +127,11 @@ iframe[src*="siwol-artmug.netlify.app"]{
       if (data.source !== 'syura-css') return;
 
       if (data.type === 'SYURA_IFRAME_HEIGHT') {
-        resizeIframe(data.height);
+        setIframeHeight(data.height);
       }
 
       if (data.type === 'SYURA_IFRAME_READY') {
-        setTimeout(sendViewportToIframe, 50);
-        setTimeout(sendViewportToIframe, 300);
-        setTimeout(sendViewportToIframe, 1000);
+        [50, 200, 600, 1200].forEach(ms => setTimeout(sendViewport, ms));
       }
 
       if (data.type === 'SYURA_PARENT_SCROLL_TO') {
@@ -218,84 +139,67 @@ iframe[src*="siwol-artmug.netlify.app"]{
       }
     });
 
-    window.addEventListener('scroll', sendViewportToIframe, { passive: true });
-    window.addEventListener('resize', sendViewportToIframe);
-    window.addEventListener('orientationchange', () => {
-      setTimeout(sendViewportToIframe, 300);
-    });
+    window.addEventListener('scroll', sendViewport, { passive: true });
+    window.addEventListener('resize', sendViewport);
   }
 
-  function watchIframeCreation() {
-    if (window.__syuraArtmugMutationBind) return;
-    window.__syuraArtmugMutationBind = true;
+  function prepareIframe() {
+    const iframe = getIframe();
+
+    if (!iframe) return false;
+
+    iframe.style.height = Math.max(Number(iframe.getAttribute('height')) || 700, lastHeight || 700) + 'px';
+    iframe.style.overflow = 'hidden';
+    iframe.setAttribute('scrolling', 'no');
+
+    if (!iframe.dataset.siwolParentBound) {
+      iframe.dataset.siwolParentBound = '1';
+      iframe.addEventListener('load', () => {
+        [80, 250, 700, 1500].forEach(ms => setTimeout(sendViewport, ms));
+      });
+    }
+
+    sendViewport();
+    return true;
+  }
+
+  function neutralize() {
+    injectStyle();
+    unlockArtmugDetail();
+    bindMessages();
+    prepareIframe();
+  }
+
+  function watch() {
+    if (window.__siwolParentWatch) return;
+    window.__siwolParentWatch = true;
 
     const mo = new MutationObserver(() => {
-      scheduleNeutralize();
-      setTimeout(sendViewportToIframe, 80);
+      clearTimeout(retryTimer);
+      retryTimer = setTimeout(neutralize, 50);
     });
 
     mo.observe(document.documentElement, {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['src', 'style', 'class']
+      attributeFilter: ['src', 'height', 'style', 'class']
     });
 
     let count = 0;
-    const interval = setInterval(() => {
+    const iv = setInterval(() => {
       count += 1;
       neutralize();
-      sendViewportToIframe();
-
-      if (count > 40) clearInterval(interval);
+      if (count > 80) clearInterval(iv);
     }, 500);
-  }
-
-  function scheduleNeutralize() {
-    clearTimeout(neutralizeTimer);
-    neutralizeTimer = setTimeout(neutralize, 60);
-  }
-
-  function neutralize() {
-    injectStyle();
-    killButtons();
-    stripListeners();
-    unlockDetail();
-    hardBlockClicks();
-    bindMessages();
-
-    const iframe = getIframe();
-
-    if (iframe) {
-      iframe.style.overflow = 'hidden';
-      iframe.setAttribute('scrolling', 'no');
-
-      if (!iframe.dataset.syuraLoadBound) {
-        iframe.dataset.syuraLoadBound = '1';
-        iframe.addEventListener('load', () => {
-          setTimeout(sendViewportToIframe, 80);
-          setTimeout(sendViewportToIframe, 300);
-          setTimeout(sendViewportToIframe, 1000);
-        });
-      }
-    }
-
-    sendViewportToIframe();
   }
 
   function boot() {
     neutralize();
-    watchIframeCreation();
-
-    setTimeout(neutralize, 300);
-    setTimeout(neutralize, 1000);
-    setTimeout(neutralize, 2000);
-    setTimeout(neutralize, 4000);
+    watch();
+    [300, 1000, 2000, 4000].forEach(ms => setTimeout(neutralize, ms));
   }
 
-  if (document.readyState !== 'loading') {
-    boot();
-  } else {
-    document.addEventListener('DOMContentLoaded', boot);
-  }
+  if (document.readyState !== 'loading') boot();
+  else document.addEventListener('DOMContentLoaded', boot);
 })();
