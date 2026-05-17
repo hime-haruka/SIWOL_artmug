@@ -1075,133 +1075,129 @@
 })();
 
 
-/* v51: parent-created floating menu bridge for iframe embed */
+/* v52: parent-created right floating menu bridge for iframe embed */
 (function(){
-  if (window.__siwolParentMenuBridgeV51) return;
-  window.__siwolParentMenuBridgeV51 = true;
+  if (window.__siwolParentMenuBridgeV52) return;
+  window.__siwolParentMenuBridgeV52 = true;
 
   var lastViewport = null;
   var lastActiveId = '';
 
-  function safeText(value){
-    return String(value == null ? '' : value).replace(/\s+/g, ' ').trim();
+  var NAV_ORDER = [
+    { id:'intro', title:'작가 소개' },
+    { id:'calendar', title:'예약 현황' },
+    { id:'process', title:'진행 방식' },
+    { id:'notice', title:'공지사항' },
+    { id:'usage', title:'사용 범위' },
+    { id:'portfolio', title:'포트폴리오' },
+    { id:'portfolio:package', title:'구독 패키지', parent:'portfolio', areaIds:['package','subscribe_package','sub_package'] },
+    { id:'portfolio:badge', title:'구독 뱃지', parent:'portfolio', areaIds:['badge','subscribe_badge'] },
+    { id:'portfolio:emoji', title:'구독티콘', parent:'portfolio', areaIds:['emoji','subscribe_emoji'] },
+    { id:'portfolio:move_emoji', title:'움짤티콘', parent:'portfolio', areaIds:['move_emoji','moving_emoji','gif_emoji'] },
+    { id:'portfolio:ogq', title:'OGQ', parent:'portfolio', areaIds:['ogq'] },
+    { id:'portfolio:facial_chart', title:'페이셜 차트', parent:'portfolio', areaIds:['facial_chart','facialchart','face_chart'] },
+    { id:'portfolio:dona_image', title:'후원 이미지', parent:'portfolio', areaIds:['dona_image','donation_image','donation'] },
+    { id:'portfolio:fan_char', title:'팬 캐릭터', parent:'portfolio', areaIds:['fan_char','fan_character'] },
+    { id:'portfolio:gif_talk', title:'짚톡', parent:'portfolio', areaIds:['gif_talk','giftalk','ziptalk','zip_talk'] },
+    { id:'portfolio:sd_illust', title:'SD 일러스트', parent:'portfolio', areaIds:['sd_illust','sd'] },
+    { id:'portfolio:ld_illust', title:'LD 일러스트', parent:'portfolio', areaIds:['ld_illust','ld'] },
+    { id:'portfolio:overlay', title:'방송 화면', parent:'portfolio', areaIds:['overlay','broadcast_overlay','screen'] },
+    { id:'portfolio:v_animal', title:'멍냥 버츄얼', parent:'portfolio', areaIds:['v_animal','animal_virtual','mungnyang','dogcat'] },
+    { id:'portfolio:v_nyah', title:'SD 버츄얼', parent:'portfolio', areaIds:['v_nyah','sd_virtual','virtual_sd'] },
+    { id:'form', title:'신청 양식' }
+  ];
+
+  function safeText(value){ return String(value == null ? '' : value).replace(/\s+/g, ' ').trim(); }
+  function getScrollY(){ return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0; }
+  function getTargetY(target){ return target ? Math.max(0, Math.round(target.getBoundingClientRect().top + getScrollY())) : 0; }
+
+  function resolveTarget(sectionId){
+    if (!sectionId) return null;
+    if (sectionId.indexOf('portfolio:') === 0) {
+      var item = NAV_ORDER.filter(function(row){ return row.id === sectionId; })[0];
+      var ids = item && item.areaIds ? item.areaIds : [sectionId.replace('portfolio:', '')];
+      for (var i = 0; i < ids.length; i++) {
+        var found = document.querySelector('[data-area-id="' + ids[i].replace(/"/g,'') + '"]');
+        if (found) return found;
+      }
+      var label = item ? item.title : '';
+      if (label) {
+        var details = Array.prototype.slice.call(document.querySelectorAll('.portfolio-detail'));
+        for (var j = 0; j < details.length; j++) {
+          var title = safeText(details[j].querySelector('.portfolio-detail-head strong') && details[j].querySelector('.portfolio-detail-head strong').textContent);
+          if (title === label || title.indexOf(label) > -1 || label.indexOf(title) > -1) return details[j];
+        }
+      }
+      return document.getElementById('portfolio');
+    }
+    return document.getElementById(sectionId);
   }
 
-  function getSections(){
-    return Array.prototype.slice.call(document.querySelectorAll('[data-nav-title][id]')).map(function(section){
+  function getNavItems(){
+    return NAV_ORDER.map(function(item){
       return {
-        id: section.id,
-        title: safeText(section.getAttribute('data-nav-title')),
-        targetY: getTargetY(section)
+        id:item.id,
+        title:item.title,
+        parent:item.parent || '',
+        targetY:getTargetY(resolveTarget(item.id))
       };
-    }).filter(function(item){
-      return item.id && item.title;
     });
   }
 
-  function getTargetY(target){
-    if (!target) return 0;
-    return Math.max(0, Math.round(target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0)));
-  }
-
   function sendNavItems(){
-    window.parent.postMessage({
-      source: 'syura-css',
-      type: 'SYURA_NAV_ITEMS',
-      items: getSections()
-    }, '*');
+    window.parent.postMessage({ source:'syura-css', type:'SYURA_NAV_ITEMS', items:getNavItems() }, '*');
   }
 
   function sendScrollTarget(sectionId, navHeight){
-    var target = document.getElementById(sectionId);
+    var target = resolveTarget(sectionId);
     if (!target) return;
     window.parent.postMessage({
-      source: 'syura-css',
-      type: 'SYURA_PARENT_SCROLL_TO',
-      sectionId: sectionId,
-      targetY: getTargetY(target),
-      navHeight: Number(navHeight || 0)
+      source:'syura-css',
+      type:'SYURA_PARENT_SCROLL_TO',
+      sectionId:sectionId,
+      targetY:getTargetY(target),
+      navHeight:Number(navHeight || 0)
     }, '*');
   }
 
   function sendActive(sectionId){
     if (!sectionId || sectionId === lastActiveId) return;
     lastActiveId = sectionId;
-    window.parent.postMessage({
-      source: 'syura-css',
-      type: 'SYURA_ACTIVE_SECTION',
-      sectionId: sectionId
-    }, '*');
+    window.parent.postMessage({ source:'syura-css', type:'SYURA_ACTIVE_SECTION', sectionId:sectionId }, '*');
   }
 
   function syncActiveFromParentViewport(){
     if (!lastViewport) return;
-    var sections = getSections();
+    var sections = getNavItems().filter(function(item){ return !item.parent || item.id.indexOf('portfolio:') === 0; });
     if (!sections.length) return;
-
     var parentViewY = Number(lastViewport.scrollY || 0);
     var iframeTop = Number(lastViewport.iframeTop || 0) + parentViewY;
-    var viewportLineInIframe = parentViewY - iframeTop + 180;
-
+    var line = parentViewY - iframeTop + 190;
     var active = sections[0];
-    sections.forEach(function(item){
-      if (item.targetY <= viewportLineInIframe) active = item;
-    });
+    sections.forEach(function(item){ if (item.targetY <= line) active = item; });
     sendActive(active.id);
   }
 
   function handleParentMenuMessage(event){
     var data = event.data || {};
     if (data.source !== 'syura-artmug-parent') return;
-
-    if (data.type === 'SYURA_PARENT_REQUEST_NAV') {
-      sendNavItems();
-      syncActiveFromParentViewport();
-      return;
-    }
-
-    if (data.type === 'SYURA_PARENT_NAV_TO') {
-      sendScrollTarget(data.sectionId, data.navHeight);
-      sendActive(data.sectionId);
-      return;
-    }
-
-    if (data.type === 'SYURA_PARENT_VIEWPORT') {
-      lastViewport = data;
-      syncActiveFromParentViewport();
-    }
+    if (data.type === 'SYURA_PARENT_REQUEST_NAV') { sendNavItems(); syncActiveFromParentViewport(); return; }
+    if (data.type === 'SYURA_PARENT_NAV_TO') { sendScrollTarget(data.sectionId, data.navHeight); sendActive(data.sectionId); return; }
+    if (data.type === 'SYURA_PARENT_VIEWPORT') { lastViewport = data; syncActiveFromParentViewport(); }
   }
 
   window.addEventListener('message', handleParentMenuMessage);
-  window.addEventListener('load', function(){
-    [80,250,700,1400,2500].forEach(function(ms){ setTimeout(sendNavItems, ms); });
-  });
-  window.addEventListener('resize', function(){
-    sendNavItems();
-    setTimeout(sendNavItems, 240);
-  });
-
-  document.addEventListener('toggle', function(){
-    [40,180,420].forEach(function(ms){ setTimeout(sendNavItems, ms); });
-  }, true);
+  window.addEventListener('load', function(){ [80,250,700,1400,2500].forEach(function(ms){ setTimeout(sendNavItems, ms); }); });
+  window.addEventListener('resize', function(){ sendNavItems(); setTimeout(sendNavItems, 240); });
+  document.addEventListener('toggle', function(){ [40,180,420].forEach(function(ms){ setTimeout(sendNavItems, ms); }); }, true);
 
   if ('ResizeObserver' in window) {
     var ro = new ResizeObserver(function(){ sendNavItems(); syncActiveFromParentViewport(); });
     if (document.body) ro.observe(document.body);
   }
-
   if ('MutationObserver' in window) {
-    var mo = new MutationObserver(function(){
-      sendNavItems();
-      syncActiveFromParentViewport();
-    });
-    mo.observe(document.documentElement || document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['id','data-nav-title','style','class','open']
-    });
+    var mo = new MutationObserver(function(){ sendNavItems(); syncActiveFromParentViewport(); });
+    mo.observe(document.documentElement || document.body, { childList:true, subtree:true, attributes:true, attributeFilter:['id','data-area-id','style','class','open'] });
   }
-
   setTimeout(sendNavItems, 300);
 })();
