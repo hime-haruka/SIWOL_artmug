@@ -9,6 +9,29 @@
   let navAnimating = false;
   let lastNavRequestAt = 0;
   let navItemsSignature = '';
+  const DEFAULT_NAV_ITEMS = [
+    {id:'intro', title:'작가 소개'},
+    {id:'calendar', title:'예약 현황'},
+    {id:'process', title:'진행 방식'},
+    {id:'notice', title:'공지사항'},
+    {id:'usage', title:'사용 범위'},
+    {id:'portfolio', title:'포트폴리오'},
+    {id:'portfolio:package', title:'구독 패키지', parent:'portfolio'},
+    {id:'portfolio:badge', title:'구독 뱃지', parent:'portfolio'},
+    {id:'portfolio:emoji', title:'구독티콘', parent:'portfolio'},
+    {id:'portfolio:move_emoji', title:'움짤티콘', parent:'portfolio'},
+    {id:'portfolio:ogq', title:'OGQ', parent:'portfolio'},
+    {id:'portfolio:facial_chart', title:'페이셜 차트', parent:'portfolio'},
+    {id:'portfolio:dona_image', title:'후원 이미지', parent:'portfolio'},
+    {id:'portfolio:fan_char', title:'팬 캐릭터', parent:'portfolio'},
+    {id:'portfolio:gif_talk', title:'짚톡', parent:'portfolio'},
+    {id:'portfolio:sd_illust', title:'SD 일러스트', parent:'portfolio'},
+    {id:'portfolio:ld_illust', title:'LD 일러스트', parent:'portfolio'},
+    {id:'portfolio:overlay', title:'방송 화면', parent:'portfolio'},
+    {id:'portfolio:v_animal', title:'멍냥 버츄얼', parent:'portfolio'},
+    {id:'portfolio:v_nyah', title:'SD 버츄얼', parent:'portfolio'},
+    {id:'form', title:'신청 양식'}
+  ];
 
   function injectStyle() {
     if (document.getElementById('siwol-artmug-parent-style')) return;
@@ -19,33 +42,35 @@
 section[name="am-root"],[name="am-root"]{display:block!important;text-align:start!important;padding:0!important;margin:0 auto!important;line-height:normal!important;overflow:visible!important;}
 section[name="am-root"] [name="stage"],[name="am-root"] [name="stage"]{display:block!important;width:100%!important;overflow:visible!important;}
 section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],iframe[src*="siwol-artmug.netlify.app"]{display:block!important;width:100%!important;max-width:1180px!important;min-height:700px!important;height:700px;margin:0 auto!important;border:0!important;overflow:hidden!important;}
-#siwol-artmug-parent-nav{position:absolute!important;right:max(10px,calc((100vw - 1180px)/2 - 240px))!important;top:320px;z-index:999999!important;width:218px!important;display:none;font-family:Atomy,'Apple SD Gothic Neo','Malgun Gothic',sans-serif!important;letter-spacing:-.055em!important;pointer-events:auto!important;color:#8d79db!important;will-change:top!important;contain:layout paint style!important;}
+#siwol-artmug-parent-nav{position:fixed!important;right:24px!important;top:24px!important;left:auto!important;bottom:auto!important;z-index:2147483000!important;width:216px!important;display:block!important;font-family:Atomy,'Apple SD Gothic Neo','Malgun Gothic',sans-serif!important;letter-spacing:-.055em!important;pointer-events:auto!important;color:#8d79db!important;contain:layout paint style!important;}
 #siwol-artmug-parent-nav.is-visible{display:block!important;}
 #siwol-artmug-parent-nav *{box-sizing:border-box!important;}
-#siwol-artmug-parent-nav .siwol-nav-frame{position:relative;overflow:hidden;border:2px solid #bea9ff!important;border-radius:8px!important;background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(246,242,255,.94) 48%,rgba(255,255,255,.96) 100%)!important;box-shadow:0 10px 28px rgba(105,79,206,.14)!important;padding:82px 15px 24px!important;isolation:isolate;}
-#siwol-artmug-parent-nav .siwol-nav-frame:before{content:'';position:absolute;left:50%;top:12px;width:861px;height:62px;transform:translateX(-50%);background:url('https://lh3.googleusercontent.com/d/1nHKjunygcwk1Nn4lYZ7Eplq199VUPS5B') center top/861px auto no-repeat;z-index:2;pointer-events:none;}
-#siwol-artmug-parent-nav .siwol-nav-frame:after{content:'';position:absolute;inset:74px 8px 34px;background-image:linear-gradient(180deg,rgba(255,255,255,.38),rgba(226,218,255,.22)),url('https://lh3.googleusercontent.com/d/13CvtmqiZi9vvkSVdi8I1RhxLuHEWWzx3');background-size:100% 100%,1180px auto;background-position:0 0,center top;background-repeat:no-repeat,repeat-y;opacity:.72;pointer-events:none;z-index:0;}
-#siwol-artmug-parent-nav .siwol-nav-dots,#siwol-artmug-parent-nav .siwol-nav-dots-bottom{position:absolute;left:0;right:0;text-align:center;z-index:3;pointer-events:none;height:10px;font-size:0;}
+#siwol-artmug-parent-nav .siwol-nav-frame{position:relative;overflow:hidden;border:2px solid #bea9ff!important;border-radius:8px!important;background:linear-gradient(180deg,#fff 0%,#f7f4ff 44%,#fff 100%)!important;box-shadow:0 10px 28px rgba(105,79,206,.14)!important;padding:78px 14px 24px!important;isolation:isolate;max-height:calc(100vh - 48px)!important;}
+#siwol-artmug-parent-nav .siwol-nav-frame:before{content:'';position:absolute;left:50%;top:10px;width:861px;height:240px;transform:translateX(-50%) scale(.248);transform-origin:top center;background:url('https://lh3.googleusercontent.com/d/1nHKjunygcwk1Nn4lYZ7Eplq199VUPS5B') center top/861px auto no-repeat;z-index:2;pointer-events:none;}
+#siwol-artmug-parent-nav .siwol-nav-frame:after{content:'';position:absolute;inset:72px 8px 34px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(238,232,255,.68));z-index:0;pointer-events:none;}
+#siwol-artmug-parent-nav .siwol-nav-pattern{position:absolute;inset:72px 8px 34px;background:url('https://lh3.googleusercontent.com/d/13CvtmqiZi9vvkSVdi8I1RhxLuHEWWzx3') center top/1180px auto repeat-y;opacity:.9;z-index:1;pointer-events:none;}
+#siwol-artmug-parent-nav .siwol-nav-dots,#siwol-artmug-parent-nav .siwol-nav-dots-bottom{position:absolute;left:50%;transform:translateX(-50%);display:block;z-index:3;pointer-events:none;width:42px;height:6px;font-size:0;background:radial-gradient(circle,#cabdff 0 2.3px,transparent 2.6px) 0 0/10px 6px repeat-x;}
 #siwol-artmug-parent-nav .siwol-nav-dots{top:8px;}#siwol-artmug-parent-nav .siwol-nav-dots-bottom{bottom:8px;}
-#siwol-artmug-parent-nav .siwol-nav-dots:before,#siwol-artmug-parent-nav .siwol-nav-dots-bottom:before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:#cabdff;box-shadow:12px 0 0 #cabdff,24px 0 0 #cabdff,36px 0 0 #cabdff;opacity:.9;}
-#siwol-artmug-parent-nav .siwol-nav-list{position:relative;z-index:4;display:flex!important;flex-direction:column!important;gap:8px!important;}
-#siwol-artmug-parent-nav button{appearance:none!important;-webkit-appearance:none!important;display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:38px!important;border:1px solid #d8cdfc!important;border-radius:6px!important;background:rgba(255,255,255,.9)!important;color:#8d79db!important;box-shadow:0 2px 0 rgba(126,99,221,.10),0 0 0 1px rgba(255,255,255,.58) inset!important;padding:7px 7px 5px!important;font:400 17px/1 Atomy,'Apple SD Gothic Neo','Malgun Gothic',sans-serif!important;text-align:center!important;cursor:pointer!important;white-space:nowrap!important;transition:background-color .12s ease,color .12s ease,border-color .12s ease!important;transform:none!important;}
-#siwol-artmug-parent-nav button:hover,#siwol-artmug-parent-nav button.is-active{background:rgba(255,255,255,.96)!important;border-color:#b39bff!important;color:#705bd7!important;box-shadow:0 2px 0 rgba(126,99,221,.10),0 0 0 1px rgba(255,255,255,.7) inset!important;transform:none!important;}
+#siwol-artmug-parent-nav .siwol-nav-dots:before,#siwol-artmug-parent-nav .siwol-nav-dots-bottom:before{content:none!important;}
+#siwol-artmug-parent-nav .siwol-nav-list{position:relative;z-index:4;display:flex!important;flex-direction:column!important;gap:6px!important;max-height:calc(100vh - 150px)!important;overflow-y:auto!important;overflow-x:hidden!important;padding:0 2px!important;scrollbar-width:thin;}
+#siwol-artmug-parent-nav .siwol-nav-list::-webkit-scrollbar{width:4px;}#siwol-artmug-parent-nav .siwol-nav-list::-webkit-scrollbar-thumb{background:#c7b7ff;border-radius:999px;}
+#siwol-artmug-parent-nav button{appearance:none!important;-webkit-appearance:none!important;display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:35px!important;border:1px solid #d8cdfc!important;border-radius:6px!important;background:rgba(255,255,255,.96)!important;color:#8d79db!important;box-shadow:0 2px 0 rgba(126,99,221,.10),0 0 0 1px rgba(255,255,255,.70) inset!important;padding:6px 7px 4px!important;font:400 15px/1 Atomy,'Apple SD Gothic Neo','Malgun Gothic',sans-serif!important;text-align:center!important;cursor:pointer!important;white-space:nowrap!important;transition:background-color .12s ease,color .12s ease,border-color .12s ease!important;transform:none!important;}
+#siwol-artmug-parent-nav button:hover,#siwol-artmug-parent-nav button.is-active{background:#fff!important;border-color:#b39bff!important;color:#705bd7!important;box-shadow:0 2px 0 rgba(126,99,221,.10),0 0 0 1px rgba(255,255,255,.78) inset!important;transform:none!important;}
 #siwol-artmug-parent-nav .siwol-nav-portfolio{position:relative;}
 #siwol-artmug-parent-nav .siwol-nav-portfolio-main{position:relative;background:#a892ef!important;color:#fff!important;border-color:#967ce6!important;box-shadow:0 2px 0 rgba(112,91,215,.18)!important;}
-#siwol-artmug-parent-nav .siwol-nav-portfolio-main:after{content:'⌄';position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:14px;line-height:1;transition:transform .12s ease;}
+#siwol-artmug-parent-nav .siwol-nav-portfolio-main:after{content:'⌄';position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12px;line-height:1;transition:transform .12s ease;}
 #siwol-artmug-parent-nav .siwol-nav-portfolio.is-open .siwol-nav-portfolio-main:after{transform:translateY(-50%) rotate(180deg);}
-#siwol-artmug-parent-nav .siwol-nav-sub{display:grid!important;grid-template-rows:0fr;opacity:0;margin-top:0;transition:grid-template-rows .14s ease,opacity .10s ease;}
-#siwol-artmug-parent-nav .siwol-nav-portfolio.is-open .siwol-nav-sub{grid-template-rows:1fr;opacity:1;margin-top:0;}
-#siwol-artmug-parent-nav .siwol-nav-sub-inner{overflow:hidden;display:flex;flex-direction:column;gap:0;padding:0 5px 1px;background:rgba(255,255,255,.42);border:1px solid rgba(216,205,252,.62);border-top:0;border-radius:0 0 6px 6px;}
-#siwol-artmug-parent-nav .siwol-nav-sub button{min-height:23px!important;font-size:13px!important;line-height:1!important;border:0!important;border-bottom:1px solid rgba(216,205,252,.55)!important;border-radius:0!important;background:rgba(255,255,255,.58)!important;color:#927ce5!important;box-shadow:none!important;padding:4px 4px 3px!important;}
+#siwol-artmug-parent-nav .siwol-nav-sub{display:grid!important;grid-template-rows:0fr;opacity:0;margin:0!important;transition:grid-template-rows .14s ease,opacity .10s ease;}
+#siwol-artmug-parent-nav .siwol-nav-portfolio.is-open .siwol-nav-sub{grid-template-rows:1fr;opacity:1;margin:0!important;}
+#siwol-artmug-parent-nav .siwol-nav-sub-inner{overflow:hidden;display:flex;flex-direction:column;gap:0;padding:0;background:#fff!important;border:1px solid rgba(179,155,255,.80);border-top:0;border-radius:0 0 6px 6px;box-shadow:0 8px 18px rgba(105,79,206,.10)!important;}
+#siwol-artmug-parent-nav .siwol-nav-sub button{min-height:21px!important;font-size:12px!important;line-height:1!important;border:0!important;border-bottom:1px solid rgba(216,205,252,.72)!important;border-radius:0!important;background:#fff!important;color:#927ce5!important;box-shadow:none!important;padding:3px 4px 2px!important;}
 #siwol-artmug-parent-nav .siwol-nav-sub button:last-child{border-bottom:0!important;}
 #siwol-artmug-parent-nav .siwol-nav-sub button:before{content:'-';margin-right:2px;}
-#siwol-artmug-parent-nav .siwol-nav-sub button:hover{background:rgba(255,255,255,.86)!important;color:#705bd7!important;box-shadow:none!important;}
-#siwol-artmug-parent-nav .siwol-nav-inquiry{background:rgba(255,255,255,.9)!important;color:#8d79db!important;border-color:#d8cdfc!important;}
-#siwol-artmug-parent-nav .siwol-nav-inquiry:hover{background:rgba(255,255,255,.96)!important;color:#705bd7!important;}
-@media(max-height:860px){#siwol-artmug-parent-nav{width:208px!important;}#siwol-artmug-parent-nav .siwol-nav-frame{padding:78px 13px 22px!important;}#siwol-artmug-parent-nav .siwol-nav-list{gap:6px!important;}#siwol-artmug-parent-nav button{min-height:34px!important;font-size:15px!important;padding:6px 6px 4px!important;}#siwol-artmug-parent-nav .siwol-nav-sub button{min-height:21px!important;font-size:12px!important;padding:3px 4px 2px!important;}}
-@media(max-width:1439px){#siwol-artmug-parent-nav{display:none!important;}}
+#siwol-artmug-parent-nav .siwol-nav-sub button:hover{background:#f4f0ff!important;color:#705bd7!important;box-shadow:none!important;}
+#siwol-artmug-parent-nav .siwol-nav-inquiry{background:rgba(255,255,255,.96)!important;color:#8d79db!important;border-color:#d8cdfc!important;}
+#siwol-artmug-parent-nav .siwol-nav-inquiry:hover{background:#fff!important;color:#705bd7!important;}
+@media(max-height:820px){#siwol-artmug-parent-nav{top:14px!important;right:16px!important;width:206px!important;}#siwol-artmug-parent-nav .siwol-nav-frame{padding:72px 12px 21px!important;max-height:calc(100vh - 28px)!important;}#siwol-artmug-parent-nav .siwol-nav-frame:before{transform:translateX(-50%) scale(.238);}#siwol-artmug-parent-nav .siwol-nav-list{gap:5px!important;max-height:calc(100vh - 142px)!important;}#siwol-artmug-parent-nav button{min-height:31px!important;font-size:14px!important;padding:5px 6px 3px!important;}#siwol-artmug-parent-nav .siwol-nav-sub button{min-height:19px!important;font-size:11px!important;padding:2px 4px 1px!important;}}
+@media(max-width:860px){#siwol-artmug-parent-nav{right:10px!important;top:10px!important;width:190px!important;transform:scale(.92)!important;transform-origin:top right!important;}#siwol-artmug-parent-nav .siwol-nav-frame{max-height:calc(100vh - 20px)!important;}}
 `;
     document.head.appendChild(style);
   }
@@ -98,14 +123,15 @@ section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"]
     const main=(items||[]).filter(x=>x&&!x.parent);
     const subs=(items||[]).filter(x=>x&&x.parent==='portfolio');
     const frame=document.createElement('div'); frame.className='siwol-nav-frame';
+    const pattern=document.createElement('div'); pattern.className='siwol-nav-pattern'; frame.appendChild(pattern);
     const dots=document.createElement('div'); dots.className='siwol-nav-dots'; dots.textContent='•••'; frame.appendChild(dots);
     const list=document.createElement('div'); list.className='siwol-nav-list';
-    const top=makeButton('[TOP]',''); top.addEventListener('click',()=>{ const iframe=getIframe(); if(!iframe)return; const y=getPageScrollY()+iframe.getBoundingClientRect().top; window.scrollTo({top:Math.max(0,y-18),behavior:'smooth'}); }); list.appendChild(top);
+    const top=makeButton('[TOP]',''); top.addEventListener('click',()=>{ window.scrollTo({top:0,behavior:'smooth'}); }); list.appendChild(top);
     main.forEach(item=>{
       if(item.id==='portfolio'){
         const wrap=document.createElement('div'); wrap.className='siwol-nav-portfolio';
         const portfolioButton=makeButton('['+item.title+']',item.id,'siwol-nav-portfolio-main',true);
-        portfolioButton.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();wrap.classList.toggle('is-open');updateNavPosition(true);requestChildScroll(item.id);});
+        portfolioButton.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();wrap.classList.toggle('is-open');updateNavPosition(true);});
         wrap.appendChild(portfolioButton);
         const sub=document.createElement('div'); sub.className='siwol-nav-sub';
         const inner=document.createElement('div'); inner.className='siwol-nav-sub-inner';
@@ -120,14 +146,9 @@ section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"]
   }
 
   function updateNavPosition(force){
-    const nav=document.getElementById('siwol-artmug-parent-nav'); const iframe=getIframe();
-    if(!nav||!iframe||window.innerWidth<1440) return;
-    const rect=iframe.getBoundingClientRect(); const scrollY=getPageScrollY(); const iframeTop=scrollY+rect.top; const iframeBottom=iframeTop+rect.height; const navHeight=getNavHeight()||500;
-    let target=scrollY+96; target=Math.max(iframeTop+18,target); target=Math.min(Math.max(iframeTop+18,iframeBottom-navHeight-18),target); navTopTarget=target;
-    if(force){nav.style.top=navTopTarget+'px'; return;}
-    if(navAnimating) return; navAnimating=true;
-    function loop(){ const current=parseFloat(nav.style.top)||navTopTarget; const gap=navTopTarget-current; if(Math.abs(gap)<0.6){nav.style.top=navTopTarget+'px'; navAnimating=false; return;} nav.style.top=(current+gap*0.085)+'px'; requestAnimationFrame(loop); }
-    requestAnimationFrame(loop);
+    const nav=document.getElementById('siwol-artmug-parent-nav');
+    if(!nav) return;
+    nav.style.top = '';
   }
 
   function unlockArtmugDetail(){
@@ -162,7 +183,7 @@ section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"]
     if(!iframe.dataset.siwolParentBound){iframe.dataset.siwolParentBound='1'; iframe.addEventListener('load',()=>{[80,250,700,1500].forEach(ms=>setTimeout(sendViewport,ms)); [120,500,1200].forEach(ms=>setTimeout(requestNavItems,ms));});}
     sendViewport(); requestNavItems(); updateNavPosition(true); return true;
   }
-  function neutralize(){injectStyle(); unlockArtmugDetail(); bindMessages(); prepareIframe(); updateNavPosition();}
+  function neutralize(){injectStyle(); unlockArtmugDetail(); bindMessages(); if(!navItemsSignature) renderParentNav(DEFAULT_NAV_ITEMS); prepareIframe(); updateNavPosition();}
   function watch(){
     if(window.__siwolParentWatch)return; window.__siwolParentWatch=true;
     const mo=new MutationObserver((mutations)=>{
