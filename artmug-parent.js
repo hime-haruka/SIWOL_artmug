@@ -7,6 +7,8 @@
   let retryTimer = null;
   let navTopTarget = 320;
   let navAnimating = false;
+  let lastNavRequestAt = 0;
+  let navItemsSignature = '';
 
   function injectStyle() {
     if (document.getElementById('siwol-artmug-parent-style')) return;
@@ -17,23 +19,29 @@
 section[name="am-root"],[name="am-root"]{display:block!important;text-align:start!important;padding:0!important;margin:0 auto!important;line-height:normal!important;overflow:visible!important;}
 section[name="am-root"] [name="stage"],[name="am-root"] [name="stage"]{display:block!important;width:100%!important;overflow:visible!important;}
 section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],iframe[src*="siwol-artmug.netlify.app"]{display:block!important;width:100%!important;max-width:1180px!important;min-height:700px!important;height:700px;margin:0 auto!important;border:0!important;overflow:hidden!important;}
-#siwol-artmug-parent-nav{position:absolute!important;right:max(14px,calc((100vw - 1180px)/2 - 238px))!important;top:320px;z-index:999999!important;width:208px!important;display:none;font-family:Atomy,'Apple SD Gothic Neo','Malgun Gothic',sans-serif!important;letter-spacing:-.05em!important;pointer-events:auto!important;color:#8d79db!important;}
+#siwol-artmug-parent-nav{position:absolute!important;right:max(14px,calc((100vw - 1180px)/2 - 248px))!important;top:320px;z-index:999999!important;width:218px!important;display:none;font-family:Atomy,'Apple SD Gothic Neo','Malgun Gothic',sans-serif!important;letter-spacing:-.055em!important;pointer-events:auto!important;color:#8d79db!important;will-change:top!important;contain:layout paint style!important;}
 #siwol-artmug-parent-nav.is-visible{display:block!important;}
-#siwol-artmug-parent-nav .siwol-nav-frame{position:relative;overflow:hidden;border:2px solid #bda8ff!important;border-radius:7px!important;background:#eeeaff!important;box-shadow:0 8px 20px rgba(105,79,206,.12)!important;padding:82px 22px 18px!important;}
-#siwol-artmug-parent-nav .siwol-nav-frame:before{content:'';position:absolute;left:0;right:0;top:0;height:70px;background:linear-gradient(90deg,#ded7ff 0 18%,#aa91ef 18% 38%,#ded7ff 38% 58%,#aa91ef 58% 78%,#ded7ff 78% 100%);border-bottom-left-radius:20px;border-bottom-right-radius:20px;box-shadow:0 2px 0 rgba(126,99,221,.12);z-index:1;}
-#siwol-artmug-parent-nav .siwol-nav-frame:after{content:'';position:absolute;inset:72px 8px 30px;background:linear-gradient(135deg,transparent 0 46%,rgba(255,255,255,.62) 47% 52%,transparent 53% 100%) 0 0/58px 58px,linear-gradient(45deg,transparent 0 46%,rgba(255,255,255,.5) 47% 52%,transparent 53% 100%) 0 0/58px 58px;opacity:.95;pointer-events:none;}
-#siwol-artmug-parent-nav .siwol-nav-dots,#siwol-artmug-parent-nav .siwol-nav-dots-bottom{position:absolute;left:0;right:0;text-align:center;color:#c8bbff;font-size:18px;line-height:1;letter-spacing:4px;z-index:2;}
-#siwol-artmug-parent-nav .siwol-nav-dots{top:5px;}#siwol-artmug-parent-nav .siwol-nav-dots-bottom{bottom:3px;}
-#siwol-artmug-parent-nav .siwol-nav-list{position:relative;z-index:3;display:flex!important;flex-direction:column!important;gap:10px!important;}
-#siwol-artmug-parent-nav button{appearance:none!important;-webkit-appearance:none!important;display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:42px!important;border:1px solid #d8cdfc!important;border-radius:6px!important;background:rgba(255,255,255,.92)!important;color:#8d79db!important;box-shadow:0 2px 0 rgba(126,99,221,.12),0 0 0 1px rgba(255,255,255,.65) inset!important;padding:7px 8px 5px!important;font:400 18px/1.05 Atomy,'Apple SD Gothic Neo','Malgun Gothic',sans-serif!important;text-align:center!important;cursor:pointer!important;transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease!important;white-space:nowrap!important;}
-#siwol-artmug-parent-nav button:hover,#siwol-artmug-parent-nav button.is-active{transform:translateY(-2px)!important;background:#fff!important;border-color:#b39bff!important;color:#705bd7!important;box-shadow:0 4px 0 rgba(126,99,221,.15),0 0 0 1px rgba(255,255,255,.85) inset!important;}
+#siwol-artmug-parent-nav *{box-sizing:border-box!important;}
+#siwol-artmug-parent-nav .siwol-nav-frame{position:relative;overflow:hidden;border:2px solid #bea9ff!important;border-radius:8px!important;background:linear-gradient(180deg,rgba(252,250,255,.97) 0%,rgba(239,234,255,.97) 52%,rgba(246,243,255,.98) 100%)!important;box-shadow:0 10px 28px rgba(105,79,206,.14)!important;padding:84px 22px 22px!important;isolation:isolate;}
+#siwol-artmug-parent-nav .siwol-nav-frame:before{content:'';position:absolute;left:0;right:0;top:12px;height:62px;background:url('https://lh3.googleusercontent.com/d/1nHKjunygcwk1Nn4lYZ7Eplq199VUPS5B') center top/100% 100% no-repeat;z-index:2;pointer-events:none;}
+#siwol-artmug-parent-nav .siwol-nav-frame:after{content:'';position:absolute;inset:76px 8px 34px;background-image:url('https://lh3.googleusercontent.com/d/13CvtmqiZi9vvkSVdi8I1RhxLuHEWWzx3'),linear-gradient(135deg,rgba(255,255,255,.5),rgba(221,213,255,.28));background-size:190px auto,100% 100%;background-position:center top,0 0;background-repeat:repeat;opacity:.58;pointer-events:none;z-index:0;}
+#siwol-artmug-parent-nav .siwol-nav-dots,#siwol-artmug-parent-nav .siwol-nav-dots-bottom{position:absolute;left:0;right:0;text-align:center;z-index:3;pointer-events:none;}
+#siwol-artmug-parent-nav .siwol-nav-dots{top:6px;}#siwol-artmug-parent-nav .siwol-nav-dots-bottom{bottom:6px;}
+#siwol-artmug-parent-nav .siwol-nav-dots:before,#siwol-artmug-parent-nav .siwol-nav-dots:after,#siwol-artmug-parent-nav .siwol-nav-dots-bottom:before,#siwol-artmug-parent-nav .siwol-nav-dots-bottom:after{content:'';display:inline-block;width:5px;height:5px;margin:0 3px;border-radius:50%;background:#cabdff;box-shadow:12px 0 0 #cabdff;opacity:.9;}
+#siwol-artmug-parent-nav .siwol-nav-list{position:relative;z-index:4;display:flex!important;flex-direction:column!important;gap:10px!important;}
+#siwol-artmug-parent-nav button{appearance:none!important;-webkit-appearance:none!important;display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:42px!important;border:1px solid #d8cdfc!important;border-radius:7px!important;background:rgba(255,255,255,.94)!important;color:#8d79db!important;box-shadow:0 2px 0 rgba(126,99,221,.12),0 0 0 1px rgba(255,255,255,.65) inset!important;padding:8px 8px 6px!important;font:400 18px/1.05 Atomy,'Apple SD Gothic Neo','Malgun Gothic',sans-serif!important;text-align:center!important;cursor:pointer!important;white-space:nowrap!important;transition:background-color .16s ease,color .16s ease,border-color .16s ease,box-shadow .16s ease!important;transform:none!important;}
+#siwol-artmug-parent-nav button:hover,#siwol-artmug-parent-nav button.is-active{background:#fff!important;border-color:#b39bff!important;color:#705bd7!important;box-shadow:0 3px 0 rgba(126,99,221,.13),0 0 0 1px rgba(255,255,255,.85) inset!important;transform:none!important;}
 #siwol-artmug-parent-nav .siwol-nav-portfolio{position:relative;}
-#siwol-artmug-parent-nav .siwol-nav-sub{display:grid!important;grid-template-rows:0fr;transition:grid-template-rows .24s ease,opacity .18s ease,margin .18s ease;opacity:0;margin-top:0;}
-#siwol-artmug-parent-nav .siwol-nav-portfolio:hover .siwol-nav-sub,#siwol-artmug-parent-nav .siwol-nav-portfolio:focus-within .siwol-nav-sub{grid-template-rows:1fr;opacity:1;margin-top:8px;}
+#siwol-artmug-parent-nav .siwol-nav-portfolio-main{position:relative;background:#a892ef!important;color:#fff!important;border-color:#967ce6!important;box-shadow:0 2px 0 rgba(112,91,215,.2)!important;}
+#siwol-artmug-parent-nav .siwol-nav-portfolio-main:after{content:'⌄';position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:16px;line-height:1;transition:transform .18s ease;}
+#siwol-artmug-parent-nav .siwol-nav-portfolio.is-open .siwol-nav-portfolio-main:after{transform:translateY(-50%) rotate(180deg);}
+#siwol-artmug-parent-nav .siwol-nav-sub{display:grid!important;grid-template-rows:0fr;opacity:0;margin-top:0;transition:grid-template-rows .22s ease,opacity .16s ease,margin-top .16s ease;}
+#siwol-artmug-parent-nav .siwol-nav-portfolio.is-open .siwol-nav-sub{grid-template-rows:1fr;opacity:1;margin-top:8px;}
 #siwol-artmug-parent-nav .siwol-nav-sub-inner{overflow:hidden;display:flex;flex-direction:column;gap:7px;padding:0 4px;}
-#siwol-artmug-parent-nav .siwol-nav-sub button{min-height:31px!important;font-size:14px!important;border-radius:5px!important;background:rgba(255,255,255,.82)!important;color:#927ce5!important;}
-#siwol-artmug-parent-nav .siwol-nav-inquiry{background:#a892ef!important;color:#fff!important;border-color:#967ce6!important;}
-#siwol-artmug-parent-nav .siwol-nav-inquiry:hover{background:#967ce6!important;color:#fff!important;}
+#siwol-artmug-parent-nav .siwol-nav-sub button{min-height:29px!important;font-size:14px!important;line-height:1!important;border-radius:5px!important;background:rgba(255,255,255,.82)!important;color:#927ce5!important;box-shadow:0 1px 0 rgba(126,99,221,.1)!important;}
+#siwol-artmug-parent-nav .siwol-nav-sub button:before{content:'- ';}
+#siwol-artmug-parent-nav .siwol-nav-inquiry{background:#fff!important;color:#8d79db!important;border-color:#d8cdfc!important;}
+#siwol-artmug-parent-nav .siwol-nav-inquiry:hover{background:#fff!important;color:#705bd7!important;}
 @media(max-width:1439px){#siwol-artmug-parent-nav{display:none!important;}}
 `;
     document.head.appendChild(style);
@@ -46,7 +54,13 @@ section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"]
     const rect = iframe.getBoundingClientRect();
     iframe.contentWindow.postMessage({source:'syura-artmug-parent',type:'SYURA_PARENT_VIEWPORT',iframeTop:rect.top,iframeHeight:rect.height,viewportHeight:window.innerHeight||document.documentElement.clientHeight||0,scrollY:getPageScrollY()}, IFRAME_ORIGIN);
   }
-  function requestNavItems(){ const iframe=getIframe(); if(iframe&&iframe.contentWindow) iframe.contentWindow.postMessage({source:'syura-artmug-parent',type:'SYURA_PARENT_REQUEST_NAV'}, IFRAME_ORIGIN); }
+  function requestNavItems(force){
+    const now=Date.now();
+    if(!force && now-lastNavRequestAt<900) return;
+    lastNavRequestAt=now;
+    const iframe=getIframe();
+    if(iframe&&iframe.contentWindow) iframe.contentWindow.postMessage({source:'syura-artmug-parent',type:'SYURA_PARENT_REQUEST_NAV'}, IFRAME_ORIGIN);
+  }
   function getNavHeight(){ const nav=document.getElementById('siwol-artmug-parent-nav'); return nav ? nav.getBoundingClientRect().height : 0; }
   function requestChildScroll(sectionId){ const iframe=getIframe(); if(iframe&&iframe.contentWindow&&sectionId) iframe.contentWindow.postMessage({source:'syura-artmug-parent',type:'SYURA_PARENT_NAV_TO',sectionId,navHeight:0}, IFRAME_ORIGIN); }
   function setActiveNav(sectionId){ document.querySelectorAll('#siwol-artmug-parent-nav button[data-section-id]').forEach(btn=>btn.classList.toggle('is-active', btn.dataset.sectionId===sectionId)); }
@@ -64,34 +78,39 @@ section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"]
     requestChildScroll('form');
   }
 
-  function makeButton(title, sectionId, className){
+  function makeButton(title, sectionId, className, skipDefaultClick){
     const b=document.createElement('button'); b.type='button'; b.textContent=title;
     if(sectionId) b.dataset.sectionId=sectionId;
     if(className) b.className=className;
-    b.addEventListener('click',()=> sectionId ? requestChildScroll(sectionId) : null);
+    if(!skipDefaultClick) b.addEventListener('click',()=> sectionId ? requestChildScroll(sectionId) : null);
     return b;
   }
 
   function renderParentNav(items){
+    const nextSignature=JSON.stringify((items||[]).map(x=>({id:x&&x.id,title:x&&x.title,parent:x&&x.parent})));
     let nav=document.getElementById('siwol-artmug-parent-nav');
+    if(nav && navItemsSignature===nextSignature){ nav.classList.add('is-visible'); updateNavPosition(true); return; }
+    navItemsSignature=nextSignature;
     if(!nav){ nav=document.createElement('nav'); nav.id='siwol-artmug-parent-nav'; nav.setAttribute('aria-label','시월 포트폴리오 빠른 메뉴'); document.body.appendChild(nav); }
     const main=(items||[]).filter(x=>x&&!x.parent);
     const subs=(items||[]).filter(x=>x&&x.parent==='portfolio');
     const frame=document.createElement('div'); frame.className='siwol-nav-frame';
     const dots=document.createElement('div'); dots.className='siwol-nav-dots'; dots.textContent='•••'; frame.appendChild(dots);
     const list=document.createElement('div'); list.className='siwol-nav-list';
-    const top=makeButton('TOP',''); top.addEventListener('click',()=>{ const iframe=getIframe(); if(!iframe)return; const y=getPageScrollY()+iframe.getBoundingClientRect().top; window.scrollTo({top:Math.max(0,y-18),behavior:'smooth'}); }); list.appendChild(top);
+    const top=makeButton('[TOP]',''); top.addEventListener('click',()=>{ const iframe=getIframe(); if(!iframe)return; const y=getPageScrollY()+iframe.getBoundingClientRect().top; window.scrollTo({top:Math.max(0,y-18),behavior:'smooth'}); }); list.appendChild(top);
     main.forEach(item=>{
       if(item.id==='portfolio'){
         const wrap=document.createElement('div'); wrap.className='siwol-nav-portfolio';
-        wrap.appendChild(makeButton(item.title,item.id));
+        const portfolioButton=makeButton('['+item.title+']',item.id,'siwol-nav-portfolio-main',true);
+        portfolioButton.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();wrap.classList.toggle('is-open');updateNavPosition(true);requestChildScroll(item.id);});
+        wrap.appendChild(portfolioButton);
         const sub=document.createElement('div'); sub.className='siwol-nav-sub';
         const inner=document.createElement('div'); inner.className='siwol-nav-sub-inner';
         subs.forEach(s=>inner.appendChild(makeButton(s.title,s.id)));
         sub.appendChild(inner); wrap.appendChild(sub); list.appendChild(wrap);
-      } else list.appendChild(makeButton(item.title,item.id));
+      } else list.appendChild(makeButton('['+item.title+']',item.id));
     });
-    const inquiry=makeButton('문의하기','', 'siwol-nav-inquiry'); inquiry.addEventListener('click', openInquiry); list.appendChild(inquiry);
+    const inquiry=makeButton('[문의하기]','', 'siwol-nav-inquiry'); inquiry.addEventListener('click', openInquiry); list.appendChild(inquiry);
     frame.appendChild(list);
     const dotsBottom=document.createElement('div'); dotsBottom.className='siwol-nav-dots-bottom'; dotsBottom.textContent='•••'; frame.appendChild(dotsBottom);
     nav.innerHTML=''; nav.appendChild(frame); nav.classList.add('is-visible'); updateNavPosition(true);
@@ -132,7 +151,7 @@ section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"]
       if(data.type==='SYURA_PARENT_SCROLL_TO') scrollParentTo(data.targetY);
     });
     window.addEventListener('scroll',()=>{sendViewport(); updateNavPosition();},{passive:true});
-    window.addEventListener('resize',()=>{sendViewport(); requestNavItems(); updateNavPosition(true);});
+    window.addEventListener('resize',()=>{sendViewport(); requestNavItems(true); updateNavPosition(true);});
   }
   function prepareIframe(){
     const iframe=getIframe(); if(!iframe)return false;
@@ -143,8 +162,11 @@ section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"]
   function neutralize(){injectStyle(); unlockArtmugDetail(); bindMessages(); prepareIframe(); updateNavPosition();}
   function watch(){
     if(window.__siwolParentWatch)return; window.__siwolParentWatch=true;
-    const mo=new MutationObserver(()=>{clearTimeout(retryTimer); retryTimer=setTimeout(neutralize,50);});
-    mo.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['src','height','style','class']});
+    const mo=new MutationObserver((mutations)=>{
+      if(mutations.every(m=>m.target && (m.target.id==='siwol-artmug-parent-nav' || (m.target.closest && m.target.closest('#siwol-artmug-parent-nav'))))) return;
+      clearTimeout(retryTimer); retryTimer=setTimeout(neutralize,80);
+    });
+    mo.observe(document.documentElement,{childList:true,subtree:true});
     let count=0; const iv=setInterval(()=>{count++; neutralize(); if(count>80)clearInterval(iv);},500);
   }
   function boot(){neutralize(); watch(); [300,1000,2000,4000].forEach(ms=>setTimeout(neutralize,ms)); [500,1500,3000,5000].forEach(ms=>setTimeout(requestNavItems,ms));}
