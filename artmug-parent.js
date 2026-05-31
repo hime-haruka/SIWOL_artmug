@@ -335,8 +335,6 @@
     portfolioBtn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
-    
-      requestChildScroll('portfolio');
       nav.classList.toggle('is-open');
 });
     ddWrap.appendChild(portfolioBtn);
@@ -344,7 +342,10 @@
     var dropdown = document.createElement('div');
     dropdown.className = 'syura-floating-nav__dropdown';
     PORTFOLIO_ITEMS.forEach(function (item) {
-      dropdown.appendChild(makeButton('syura-floating-nav__subbutton', item.label, function () {
+      dropdown.appendChild(makeButton('syura-floating-nav__subbutton', item.label, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    
         requestChildScroll(item.id);
       }, 'data-portfolio', item.key));
     });
