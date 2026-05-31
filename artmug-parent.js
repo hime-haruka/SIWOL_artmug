@@ -1,7 +1,7 @@
 (function () {
   const IFRAME_ORIGIN = 'https://siwol-artmug.netlify.app';
   const IFRAME_SELECTOR = 'section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"], [name="am-root"] iframe[src*="siwol-artmug.netlify.app"], iframe[src*="siwol-artmug.netlify.app"]';
-  const QNA_URL = 'qna_write.php?number=41275';
+  const QNA_URL = 'qna_write.php?number=21407';
 
   const MAIN_ITEMS = [
     { id: 'top', title: '[TOP]' },
