@@ -715,3 +715,26 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
   .portfolio-area-title strong{font-size:21px;margin:0 10px}
   .portfolio-area-desc{font-size:14px}
 }
+
+/* Fix portfolio awning side gaps: overfill slightly and clip by card */
+.portfolio-detail {
+  overflow: hidden !important;
+}
+
+.portfolio-area-awning {
+  display: block !important;
+  width: calc(100% + 88px) !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: 0 -44px 18px !important;
+  object-fit: fill !important;
+  object-position: center top !important;
+  pointer-events: none;
+}
+
+@media(max-width:700px){
+  .portfolio-area-awning {
+    width: calc(100% + 60px) !important;
+    margin: 0 -30px 16px !important;
+  }
+}
