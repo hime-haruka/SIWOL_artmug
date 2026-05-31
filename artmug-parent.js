@@ -143,9 +143,13 @@
 .syura-floating-nav__button--portfolio {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background: linear-gradient(180deg, #b49bff 0%, #9678f0 100%);
   color: #ffffff;
+}
+
+.syura-floating-nav__button--portfolio .syura-floating-nav__arrow {
+    padding-left: 10px;
 }
 
 .syura-floating-nav__dropdown {
