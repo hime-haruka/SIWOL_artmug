@@ -203,16 +203,10 @@
 
 @media (max-width: 900px) {
   .syura-floating-nav {
-    top: 10px;
-    right: 10px;
-    width: 160px;
-  }
-
-  .syura-floating-nav__button,
-  .syura-floating-nav__subbutton {
-    font-size: 12px;
-  }
+    display: none !important;
 }
+
+
 `;
     document.head.appendChild(style);
   }
