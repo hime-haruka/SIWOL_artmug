@@ -1,5 +1,3 @@
-<script>
-/* custom code by syura / siwol parent floating nav v9 */
 (function () {
   'use strict';
 
@@ -485,5 +483,3 @@ section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"],[name="am-root"]
   if (document.readyState !== 'loading') boot();
   else document.addEventListener('DOMContentLoaded', boot);
 })();
-/* custom code by syura / siwol parent floating nav v9 */
-</script>
