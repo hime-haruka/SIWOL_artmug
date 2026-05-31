@@ -374,23 +374,30 @@
     });
   }
 
-  function setIframeHeight(height) {
-    var iframe = getIframe();
-    if (!iframe) return;
-    var raw = Math.ceil(Number(height) || 0);
-    var isMobile = (window.innerWidth || document.documentElement.clientWidth || 0) <= 900;
-    var buffer = isMobile ? 900 : 160;
-    var next = Math.max(700, raw + buffer, lastHeight || 0);
-    iframe.style.height = next + 'px';
-    iframe.style.minHeight = next + 'px';
-    iframe.style.maxHeight = 'none';
-    iframe.style.overflow = 'hidden';
-    iframe.height = String(next);
-    iframe.setAttribute('height', String(next));
-    iframe.setAttribute('scrolling', 'no');
-    lastHeight = next;
-    sendViewport();
-  }
+function setIframeHeight(height) {
+  var iframe = getIframe();
+  if (!iframe) return;
+
+  var raw = Math.ceil(Number(height) || 0);
+  if (!raw) return;
+
+  var isMobile = (window.innerWidth || document.documentElement.clientWidth || 0) <= 900;
+  var buffer = isMobile ? 260 : 80;
+  var next = Math.max(700, raw + buffer);
+
+  if (Math.abs(next - lastHeight) < 20) return;
+
+  iframe.style.height = next + 'px';
+  iframe.style.minHeight = next + 'px';
+  iframe.style.maxHeight = 'none';
+  iframe.style.overflow = 'hidden';
+  iframe.height = String(next);
+  iframe.setAttribute('height', String(next));
+  iframe.setAttribute('scrolling', 'no');
+
+  lastHeight = next;
+  sendViewport();
+}
 
   function scrollParentTo(targetY) {
     var iframe = getIframe();
