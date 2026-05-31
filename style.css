@@ -817,3 +817,14 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
   margin-right: auto !important;
   text-align: center !important;
 }
+
+/* iOS iframe/mobile stability patch */
+@media (max-width:700px){
+  .siwol-page{width:100%;max-width:100%;padding:0 14px 50px;overflow-x:hidden}
+  .hero{padding-top:28px}
+  .artist-card{display:flex;flex-direction:column;text-align:center;gap:22px}
+  .profile-image{width:min(62vw,280px);height:min(62vw,280px)}
+  .profile-text{max-width:100%}
+  .tags{justify-content:center}
+  .response-badge{max-width:calc(100% - 28px);white-space:normal;text-align:center}
+}

@@ -1283,3 +1283,36 @@
   }, true);
 })();
 
+
+
+
+(function(){
+ if(window.__siwolIOSHeightFix)return;
+ window.__siwolIOSHeightFix=true;
+ function getHeight(){
+  return Math.max(
+   document.body?document.body.scrollHeight:0,
+   document.documentElement?document.documentElement.scrollHeight:0,
+   document.body?document.body.offsetHeight:0,
+   document.documentElement?document.documentElement.offsetHeight:0
+  );
+ }
+ function sendHeight(){
+  try{
+   window.parent.postMessage({
+    source:'syura-css',
+    type:'SYURA_IFRAME_HEIGHT',
+    height:getHeight()
+   },'*');
+  }catch(e){}
+ }
+ window.addEventListener('load',function(){
+  [100,300,700,1200,2000,3500].forEach(ms=>setTimeout(sendHeight,ms));
+ });
+ window.addEventListener('resize',sendHeight);
+ if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',sendHeight);
+  window.visualViewport.addEventListener('scroll',sendHeight);
+ }
+ setInterval(sendHeight,1500);
+})();
