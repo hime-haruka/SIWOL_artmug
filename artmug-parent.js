@@ -3,7 +3,7 @@
 
   var IFRAME_ORIGIN = 'https://siwol-artmug.netlify.app';
   var IFRAME_SELECTOR = 'section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"], [name="am-root"] iframe[src*="siwol-artmug.netlify.app"], iframe[src*="siwol-artmug.netlify.app"]';
-  var QNA_URL = 'qna_write.php?number=41275';
+  var QNA_URL = 'qna_write.php?number=21407';
   var STYLE_ID = 'syura-floating-nav-style-v12';
   var lastHeight = 0;
   var retryTimer = null;
