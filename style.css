@@ -667,7 +667,7 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
 .portfolio-area-title {
   width: fit-content;
   max-width: calc(100% - 32px);
-  margin: 0 auto 8px;
+  margin: 0 0 10px;
   padding: 9px 34px 7px;
   border: 2px solid #d8ceff;
   border-radius: 12px;
@@ -758,7 +758,7 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
   gap: 16px;
   width: fit-content;
   max-width: calc(100% - 32px);
-  margin: 0 auto 8px;
+  margin: 0 0 10px;
   padding: 9px 34px 7px;
   border: 2px solid #d8ceff;
   border-radius: 10px;
@@ -784,6 +784,7 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
   font-size: 18px;
   line-height: 1;
   transform: translateY(-1px);
+  padding: 0 20px;
 }
 
 .portfolio-area-title em {
@@ -806,4 +807,13 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
   .portfolio-area-title strong {
     font-size: 21px;
   }
+}
+
+.portfolio-area-title {
+  display: block !important;
+  width: fit-content !important;
+  max-width: calc(100% - 32px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
 }
