@@ -1223,3 +1223,63 @@
   }
   setTimeout(sendNavItems, 300);
 })();
+
+/* v53: quick action buttons bridge for parent iframe scrolling */
+(function(){
+  if (window.__siwolQuickActionBridgeV53) return;
+  window.__siwolQuickActionBridgeV53 = true;
+
+  function getScrollY(){
+    return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  }
+
+  function getTargetY(target){
+    return target ? Math.max(0, Math.round(target.getBoundingClientRect().top + getScrollY())) : 0;
+  }
+
+  function sendHeightSoon(){
+    if (typeof window.siwolSendHeight === 'function') window.siwolSendHeight();
+    [80, 240, 600].forEach(function(ms){
+      setTimeout(function(){
+        var height = Math.max(
+          document.body ? document.body.scrollHeight : 0,
+          document.documentElement ? document.documentElement.scrollHeight : 0
+        );
+        window.parent.postMessage({ source:'syura-css', type:'SYURA_IFRAME_HEIGHT', height:height }, '*');
+      }, ms);
+    });
+  }
+
+  function moveParentTo(sectionId){
+    var target = document.getElementById(sectionId);
+    if (!target) return;
+
+    window.parent.postMessage({
+      source:'syura-css',
+      type:'SYURA_PARENT_SCROLL_TO',
+      sectionId:sectionId,
+      targetY:getTargetY(target),
+      navHeight:0
+    }, '*');
+
+    // 단독 페이지로 열었을 때도 동작하도록 로컬 스크롤도 함께 유지
+    if (window.parent === window) {
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+
+    sendHeightSoon();
+  }
+
+  document.addEventListener('click', function(event){
+    var link = event.target.closest ? event.target.closest('.quick-actions a[href^="#"]') : null;
+    if (!link) return;
+
+    var sectionId = (link.getAttribute('href') || '').replace(/^#/, '');
+    if (!sectionId) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    moveParentTo(sectionId);
+  }, true);
+})();
+
