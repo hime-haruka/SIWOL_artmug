@@ -2,7 +2,7 @@
   'use strict';
 
   var IFRAME_ORIGIN = 'https://siwol-artmug.netlify.app';
-  var IFRAME_SELECTOR = '#siwol-artmug-frame, section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"], [name="am-root"] iframe[src*="siwol-artmug.netlify.app"], iframe[src*="siwol-artmug.netlify.app"]';
+  var IFRAME_SELECTOR = 'section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"], [name="am-root"] iframe[src*="siwol-artmug.netlify.app"], iframe[src*="siwol-artmug.netlify.app"]';
   var QNA_URL = 'qna_write.php?number=21407';
   var STYLE_ID = 'syura-floating-nav-style-v13';
   var lastHeight = 0;
@@ -383,9 +383,14 @@
   function setIframeHeight(height) {
     var iframe = getIframe();
     if (!iframe) return;
-    var next = Math.max(700, Math.ceil(Number(height) || 0) + 20);
+    var raw = Math.ceil(Number(height) || 0);
+    var isMobile = (window.innerWidth || document.documentElement.clientWidth || 0) <= 900;
+    var buffer = isMobile ? 900 : 160;
+    var next = Math.max(700, raw + buffer, lastHeight || 0);
     iframe.style.height = next + 'px';
     iframe.style.minHeight = next + 'px';
+    iframe.style.maxHeight = 'none';
+    iframe.style.overflow = 'hidden';
     iframe.height = String(next);
     iframe.setAttribute('height', String(next));
     iframe.setAttribute('scrolling', 'no');
@@ -410,9 +415,11 @@
     window.addEventListener('message', function (e) {
       if (e.origin !== IFRAME_ORIGIN) return;
       var data = e.data || {};
-      if (data.source !== 'syura-css' && data.type !== 'SIWOL_IFRAME_HEIGHT') return;
+      var isHeightMessage = data.type === 'SYURA_IFRAME_HEIGHT' || data.type === 'SIWOL_IFRAME_HEIGHT';
+      var isSyuraMessage = data.source === 'syura-css';
+      if (!isSyuraMessage && !isHeightMessage) return;
 
-      if (data.type === 'SYURA_IFRAME_HEIGHT' || data.type === 'SIWOL_IFRAME_HEIGHT') setIframeHeight(data.height);
+      if (isHeightMessage) setIframeHeight(data.height);
       if (data.type === 'SYURA_IFRAME_READY') {
         [50, 200, 600, 1200].forEach(function (ms) { setTimeout(sendViewport, ms); });
       }
