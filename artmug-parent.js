@@ -114,6 +114,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-top: -30px;
 }
 
 .syura-floating-nav__button,
@@ -185,6 +186,10 @@
   padding: 8px 0 2px;
 }
 
+.syura-floating-nav__dots--top {
+    margin-bottom: 8px;
+}
+
 .syura-floating-nav__dots span {
   width: 5px;
   height: 5px;
@@ -194,6 +199,7 @@
 
 .syura-floating-nav__dots--bottom {
   padding: 4px 0 10px;
+  margin-top: 8px;
 }
 
 @media (max-width: 900px) {
