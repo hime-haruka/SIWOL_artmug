@@ -205,7 +205,7 @@
   .syura-floating-nav {
     display: none !important;
 }
-
+}
 
 `;
     document.head.appendChild(style);
@@ -382,10 +382,17 @@ function setIframeHeight(height) {
   if (!raw) return;
 
   var isMobile = (window.innerWidth || document.documentElement.clientWidth || 0) <= 900;
-  var buffer = isMobile ? 260 : 80;
+  var buffer = isMobile ? 180 : 0;
+
+  if (lastHeight && raw >= lastHeight - 5 && raw <= lastHeight + 300) {
+    return;
+  }
+
   var next = Math.max(700, raw + buffer);
 
-  if (Math.abs(next - lastHeight) < 20) return;
+  if (lastHeight && Math.abs(next - lastHeight) < 30) {
+    return;
+  }
 
   iframe.style.height = next + 'px';
   iframe.style.minHeight = next + 'px';
@@ -398,7 +405,6 @@ function setIframeHeight(height) {
   lastHeight = next;
   sendViewport();
 }
-
   function scrollParentTo(targetY) {
     var iframe = getIframe();
     if (!iframe) return;
