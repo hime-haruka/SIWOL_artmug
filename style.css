@@ -584,12 +584,3 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
   content: "　⦁";
   line-height: 30px;
 }
-
-.portfolio-top-decoration {
-  display: block;
-  width: calc(100% + 40px);
-  max-width: none;
-  height: auto;
-  margin: -20px -20px 18px;
-  pointer-events: none;
-}
