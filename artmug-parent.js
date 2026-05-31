@@ -9,12 +9,12 @@
   var retryTimer = null;
 
   var MAIN_ITEMS = [
-    { id: 'top', label: '[TOP]' },
-    { id: 'intro', label: '[작가 소개]' },
-    { id: 'calendar', label: '[예약 현황]' },
-    { id: 'process', label: '[진행 방식]' },
-    { id: 'notice', label: '[공지사항]' },
-    { id: 'usage', label: '[사용 범위]' }
+    { id: 'top', label: 'TOP' },
+    { id: 'intro', label: '작가 소개' },
+    { id: 'calendar', label: '예약 현황' },
+    { id: 'process', label: '진행 방식' },
+    { id: 'notice', label: '공지사항' },
+    { id: 'usage', label: '사용 범위' }
   ];
 
   var PORTFOLIO_ITEMS = [
