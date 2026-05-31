@@ -1316,3 +1316,44 @@
  }
  setInterval(sendHeight,1500);
 })();
+
+/* v60: ArtMug iOS iframe height bridge - unified sender */
+(function(){
+  if(window.__siwolHeightBridgeV60)return;
+  window.__siwolHeightBridgeV60=true;
+  var last=0;
+  var timer=null;
+  function h(){
+    var b=document.body, d=document.documentElement, p=document.getElementById('page')||document.querySelector('.siwol-page');
+    return Math.ceil(Math.max(
+      b?b.scrollHeight:0,d?d.scrollHeight:0,b?b.offsetHeight:0,d?d.offsetHeight:0,
+      b?b.getBoundingClientRect().height:0,d?d.getBoundingClientRect().height:0,p?p.scrollHeight:0,p?p.offsetHeight:0,p?p.getBoundingClientRect().height:0
+    ));
+  }
+  function send(){
+    var height=h()+40;
+    if(height<700)height=700;
+    if(Math.abs(height-last)<2)return;
+    last=height;
+    try{window.parent.postMessage({source:'syura-css',type:'SYURA_IFRAME_HEIGHT',height:height},'https://www.artmug.kr');}catch(e){}
+    try{window.parent.postMessage({source:'syura-css',type:'SYURA_IFRAME_HEIGHT',height:height},'https://artmug.kr');}catch(e){}
+    try{window.parent.postMessage({source:'syura-css',type:'SYURA_IFRAME_HEIGHT',height:height},'*');}catch(e){}
+  }
+  function soon(){
+    clearTimeout(timer);
+    timer=setTimeout(send,60);
+    [160,360,800,1500,2600,4200].forEach(function(ms){setTimeout(send,ms);});
+  }
+  window.siwolSendHeight=send;
+  window.addEventListener('load',soon);
+  window.addEventListener('resize',soon);
+  window.addEventListener('orientationchange',soon);
+  document.addEventListener('click',soon,true);
+  document.addEventListener('toggle',soon,true);
+  document.addEventListener('load',soon,true);
+  if(window.visualViewport){window.visualViewport.addEventListener('resize',soon);window.visualViewport.addEventListener('scroll',soon);}
+  if('ResizeObserver' in window){try{new ResizeObserver(soon).observe(document.documentElement);new ResizeObserver(soon).observe(document.body);}catch(e){}}
+  if('MutationObserver' in window){try{new MutationObserver(soon).observe(document.documentElement,{childList:true,subtree:true,attributes:true,characterData:true});}catch(e){}}
+  soon();
+  setInterval(send,1200);
+})();

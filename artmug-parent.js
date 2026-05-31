@@ -2,9 +2,9 @@
   'use strict';
 
   var IFRAME_ORIGIN = 'https://siwol-artmug.netlify.app';
-  var IFRAME_SELECTOR = 'section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"], [name="am-root"] iframe[src*="siwol-artmug.netlify.app"], iframe[src*="siwol-artmug.netlify.app"]';
+  var IFRAME_SELECTOR = '#siwol-artmug-frame, section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"], [name="am-root"] iframe[src*="siwol-artmug.netlify.app"], iframe[src*="siwol-artmug.netlify.app"]';
   var QNA_URL = 'qna_write.php?number=21407';
-  var STYLE_ID = 'syura-floating-nav-style-v12';
+  var STYLE_ID = 'syura-floating-nav-style-v13';
   var lastHeight = 0;
   var retryTimer = null;
 
@@ -383,8 +383,9 @@
   function setIframeHeight(height) {
     var iframe = getIframe();
     if (!iframe) return;
-    var next = Math.max(700, Math.ceil(Number(height) || 0));
+    var next = Math.max(700, Math.ceil(Number(height) || 0) + 20);
     iframe.style.height = next + 'px';
+    iframe.style.minHeight = next + 'px';
     iframe.height = String(next);
     iframe.setAttribute('height', String(next));
     iframe.setAttribute('scrolling', 'no');
@@ -403,15 +404,15 @@
   }
 
   function bindMessages() {
-    if (window.__syuraFloatingNavMessageBindV12) return;
-    window.__syuraFloatingNavMessageBindV12 = true;
+    if (window.__syuraFloatingNavMessageBindV13) return;
+    window.__syuraFloatingNavMessageBindV13 = true;
 
     window.addEventListener('message', function (e) {
       if (e.origin !== IFRAME_ORIGIN) return;
       var data = e.data || {};
-      if (data.source !== 'syura-css') return;
+      if (data.source !== 'syura-css' && data.type !== 'SIWOL_IFRAME_HEIGHT') return;
 
-      if (data.type === 'SYURA_IFRAME_HEIGHT') setIframeHeight(data.height);
+      if (data.type === 'SYURA_IFRAME_HEIGHT' || data.type === 'SIWOL_IFRAME_HEIGHT') setIframeHeight(data.height);
       if (data.type === 'SYURA_IFRAME_READY') {
         [50, 200, 600, 1200].forEach(function (ms) { setTimeout(sendViewport, ms); });
       }
@@ -429,8 +430,8 @@
     iframe.style.overflow = 'hidden';
     iframe.setAttribute('scrolling', 'no');
 
-    if (!iframe.dataset.siwolParentBoundV12) {
-      iframe.dataset.siwolParentBoundV12 = '1';
+    if (!iframe.dataset.siwolParentBoundV13) {
+      iframe.dataset.siwolParentBoundV13 = '1';
       iframe.addEventListener('load', function () {
         [80, 250, 700, 1500].forEach(function (ms) { setTimeout(sendViewport, ms); });
       });
@@ -448,8 +449,8 @@
   }
 
   function watch() {
-    if (window.__syuraFloatingNavWatchV12) return;
-    window.__syuraFloatingNavWatchV12 = true;
+    if (window.__syuraFloatingNavWatchV13) return;
+    window.__syuraFloatingNavWatchV13 = true;
 
     var mo = new MutationObserver(function (mutations) {
       var onlyNav = mutations.every(function (m) {
