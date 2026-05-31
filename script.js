@@ -858,16 +858,16 @@
     }
 
     var awning = el('img', 'portfolio-area-awning');
-    awning.src = './portfolio-top.png';
+    awning.src = './awning.png';
     awning.alt = '';
     awning.loading = 'lazy';
     section.appendChild(awning);
 
     var head = el('div', 'portfolio-area-title');
     head.innerHTML =
-      '<span>•</span>' +
+      '<span class="title-dot">⦁</span>' +
       '<strong>' + esc(area.title || '') + '</strong>' +
-      '<span>•</span>' +
+      '<span class="title-dot">⦁</span>' +
       (!boolValue(area.active) ? '<em>오픈 준비중입니다.</em>' : '');
     section.appendChild(head);
 
