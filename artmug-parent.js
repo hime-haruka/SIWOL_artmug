@@ -335,8 +335,10 @@
     portfolioBtn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
+    
+      requestChildScroll('portfolio');
       nav.classList.toggle('is-open');
-    });
+});
     ddWrap.appendChild(portfolioBtn);
 
     var dropdown = document.createElement('div');
