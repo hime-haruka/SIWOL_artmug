@@ -113,7 +113,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: -35px;
+  margin-top: -30px;
 }
 
 .syura-floating-nav__button,
@@ -126,7 +126,7 @@
   font-family: inherit;
   font-size: 13px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
@@ -159,7 +159,7 @@
   border: 1px solid #e5dcff;
   border-radius: 8px;
   background: #ffffff;
-  max-height: 48vh;
+  max-height: 45vh;
   overflow-y: auto;
 }
 
