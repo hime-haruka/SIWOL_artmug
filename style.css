@@ -828,3 +828,9 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
   .tags{justify-content:center}
   .response-badge{max-width:calc(100% - 28px);white-space:normal;text-align:center}
 }
+
+@media (max-width: 700px) {
+  .portfolio-area-title .title-dot {
+    display: none;
+  }
+}
