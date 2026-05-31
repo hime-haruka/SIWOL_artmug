@@ -849,41 +849,39 @@
     return wrap;
   }
 
-function renderPortfolioOne(area) {
-  var section = el('article', 'portfolio-detail' + (!boolValue(area.active) ? ' is-disabled' : ''));
-  section.setAttribute('data-area-id', safe(area.area_id));
+  function renderPortfolioOne(area) {
+    var section = el('article', 'portfolio-detail' + (!boolValue(area.active) ? ' is-disabled' : ''));
+    section.setAttribute('data-area-id', safe(area.area_id));
 
-  if (!boolValue(area.active)) {
-    section.setAttribute('data-ready-tooltip', '오픈 준비중입니다.');
+    if (!boolValue(area.active)) {
+      section.setAttribute('data-ready-tooltip', '오픈 준비중입니다.');
+    }
+
+    var awning = el('img', 'portfolio-area-awning');
+    awning.src = './portfolio-top.png';
+    awning.alt = '';
+    awning.loading = 'lazy';
+    section.appendChild(awning);
+
+    var head = el('div', 'portfolio-area-title');
+    head.innerHTML =
+      '<span>•</span>' +
+      '<strong>' + esc(area.title || '') + '</strong>' +
+      '<span>•</span>' +
+      (!boolValue(area.active) ? '<em>오픈 준비중입니다.</em>' : '');
+    section.appendChild(head);
+
+    if (area.desc) {
+      var desc = el('p', 'portfolio-area-desc');
+      desc.innerHTML = '♥ ' + esc(area.desc) + ' ♥';
+      section.appendChild(desc);
+    }
+
+    section.appendChild(renderPortfolioImages(area));
+    section.appendChild(renderPriceRows(area));
+
+    return section;
   }
-
-  var head = el('div', 'portfolio-detail-head portfolio-main-head');
-  head.innerHTML =
-    '<div><strong>포트폴리오</strong></div>' +
-    (!boolValue(area.active) ? '<em>오픈 준비중입니다.</em>' : '');
-
-  section.appendChild(head);
-
-  var packageHead = el('div', 'portfolio-package-head-wrap');
-
-  var deco = el('img', 'portfolio-package-awning');
-  deco.src = './portfolio-top.png';
-  deco.alt = '';
-  packageHead.appendChild(deco);
-
-  var title = el('div', 'portfolio-package-title');
-  title.innerHTML =
-    '<span>•</span><strong>' + esc(area.title || '') + '</strong><span>•</span>' +
-    (area.desc ? '<p>♥ ' + esc(area.desc) + ' ♥</p>' : '');
-
-  packageHead.appendChild(title);
-  section.appendChild(packageHead);
-
-  section.appendChild(renderPortfolioImages(area));
-  section.appendChild(renderPriceRows(area));
-
-  return section;
-}
 
   function renderPortfolioArea() {
     var box = qs('[data-slot="portfolio"]');
@@ -1148,7 +1146,7 @@ function renderPortfolioOne(area) {
       if (label) {
         var details = Array.prototype.slice.call(document.querySelectorAll('.portfolio-detail'));
         for (var j = 0; j < details.length; j++) {
-          var title = safeText(details[j].querySelector('.portfolio-detail-head strong') && details[j].querySelector('.portfolio-detail-head strong').textContent);
+          var title = safeText((details[j].querySelector('.portfolio-area-title strong') || details[j].querySelector('.portfolio-detail-head strong')) && (details[j].querySelector('.portfolio-area-title strong') || details[j].querySelector('.portfolio-detail-head strong')).textContent);
           if (title === label || title.indexOf(label) > -1 || label.indexOf(title) > -1) return details[j];
         }
       }
