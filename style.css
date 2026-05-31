@@ -817,20 +817,3 @@ body{font-size:17px;line-height:1.65;letter-spacing:-.018em}
   margin-right: auto !important;
   text-align: center !important;
 }
-
-html,
-body {
-  width: 1180px;
-  min-width: 1180px;
-  max-width: 1180px;
-  overflow-x: hidden;
-  overflow-y: visible;
-}
-
-.siwol-page {
-  width: 1180px;
-  min-width: 1180px;
-  max-width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
-}
