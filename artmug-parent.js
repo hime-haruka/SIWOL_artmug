@@ -18,20 +18,20 @@
   ];
 
   var PORTFOLIO_ITEMS = [
-    { id: 'portfolio:package', label: '- 구독 패키지', key: 'package' },
-    { id: 'portfolio:badge', label: '- 구독 뱃지', key: 'badge' },
-    { id: 'portfolio:emoji', label: '- 구독티콘', key: 'emoji' },
-    { id: 'portfolio:move_emoji', label: '- 움짤티콘', key: 'move_emoji' },
-    { id: 'portfolio:ogq', label: '- OGQ', key: 'ogq' },
-    { id: 'portfolio:facial_chart', label: '- 페이셜 차트', key: 'facial_chart' },
-    { id: 'portfolio:dona_image', label: '- 후원 이미지', key: 'donation' },
-    { id: 'portfolio:fan_char', label: '- 팬 캐릭터', key: 'fan_character' },
-    { id: 'portfolio:gif_talk', label: '- 짚톡', key: 'ziptalk' },
-    { id: 'portfolio:sd_illust', label: '- SD 일러스트', key: 'sd_illust' },
-    { id: 'portfolio:ld_illust', label: '- LD 일러스트', key: 'ld_illust' },
-    { id: 'portfolio:overlay', label: '- 방송 화면', key: 'overlay' },
-    { id: 'portfolio:v_animal', label: '- 멍냥 버츄얼', key: 'virtual_animal' },
-    { id: 'portfolio:v_nyah', label: '- SD 버츄얼', key: 'virtual_sd' }
+    { id: 'portfolio:package', label: '구독 패키지', key: 'package' },
+    { id: 'portfolio:badge', label: '구독 뱃지', key: 'badge' },
+    { id: 'portfolio:emoji', label: '구독티콘', key: 'emoji' },
+    { id: 'portfolio:move_emoji', label: '움짤티콘', key: 'move_emoji' },
+    { id: 'portfolio:ogq', label: 'OGQ', key: 'ogq' },
+    { id: 'portfolio:facial_chart', label: '페이셜 차트', key: 'facial_chart' },
+    { id: 'portfolio:dona_image', label: '후원 이미지', key: 'donation' },
+    { id: 'portfolio:fan_char', label: '팬 캐릭터', key: 'fan_character' },
+    { id: 'portfolio:gif_talk', label: '짚톡', key: 'ziptalk' },
+    { id: 'portfolio:sd_illust', label: 'SD 일러스트', key: 'sd_illust' },
+    { id: 'portfolio:ld_illust', label: 'LD 일러스트', key: 'ld_illust' },
+    { id: 'portfolio:overlay', label: '방송 화면', key: 'overlay' },
+    { id: 'portfolio:v_animal', label: '멍냥 버츄얼', key: 'virtual_animal' },
+    { id: 'portfolio:v_nyah', label: 'SD 버츄얼', key: 'virtual_sd' }
   ];
 
   function injectStyle() {
