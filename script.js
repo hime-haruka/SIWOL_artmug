@@ -849,17 +849,30 @@
     return wrap;
   }
 
-  function renderPortfolioOne(area) {
-    var section = el('article', 'portfolio-detail' + (!boolValue(area.active) ? ' is-disabled' : ''));
-    section.setAttribute('data-area-id', safe(area.area_id));
-    if (!boolValue(area.active)) section.setAttribute('data-ready-tooltip', '오픈 준비중입니다.');
-    var head = el('div', 'portfolio-detail-head');
-    head.innerHTML = '<div><strong>' + esc(area.title || '') + '</strong>' + (area.desc ? '<p>' + '♥ ' + esc(area.desc) + ' ♥' + '</p>' : '') + '</div>' + (!boolValue(area.active) ? '<em>오픈 준비중입니다.</em>' : '');
-    section.appendChild(head);
-    section.appendChild(renderPortfolioImages(area));
-    section.appendChild(renderPriceRows(area));
-    return section;
-  }
+function renderPortfolioOne(area) {
+  var section = el('article', 'portfolio-detail' + (!boolValue(area.active) ? ' is-disabled' : ''));
+
+  var deco = el('img', 'portfolio-top-decoration');
+  deco.src = './portfolio-top.png';
+  deco.alt = '';
+  section.appendChild(deco);
+
+  section.setAttribute('data-area-id', safe(area.area_id));
+  if (!boolValue(area.active)) section.setAttribute('data-ready-tooltip', '오픈 준비중입니다.');
+
+  var head = el('div', 'portfolio-detail-head');
+  head.innerHTML =
+    '<div><strong>' + esc(area.title || '') + '</strong>' +
+    (area.desc ? '<p>' + '♥ ' + esc(area.desc) + ' ♥' + '</p>' : '') +
+    '</div>' +
+    (!boolValue(area.active) ? '<em>오픈 준비중입니다.</em>' : '');
+
+  section.appendChild(head);
+  section.appendChild(renderPortfolioImages(area));
+  section.appendChild(renderPriceRows(area));
+
+  return section;
+}
 
   function renderPortfolioArea() {
     var box = qs('[data-slot="portfolio"]');
