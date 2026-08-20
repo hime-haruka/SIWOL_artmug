@@ -1,8 +1,8 @@
 (function () {
   'use strict';
 
-  var IFRAME_ORIGIN = 'https://siwol-artmug.netlify.app';
-  var IFRAME_SELECTOR = 'section[name="am-root"] iframe[src*="siwol-artmug.netlify.app"], [name="am-root"] iframe[src*="siwol-artmug.netlify.app"], iframe[src*="siwol-artmug.netlify.app"]';
+  var IFRAME_ORIGIN = 'https://hime-haruka.github.io';
+  var IFRAME_SELECTOR = 'section[name="am-root"] iframe[src*="hime-haruka.github.io/SIWOL_artmug"], [name="am-root"] iframe[src*="hime-haruka.github.io/SIWOL_artmug"], iframe[src*="hime-haruka.github.io/SIWOL_artmug"]';
   var QNA_URL = 'qna_write.php?number=21407';
   var STYLE_ID = 'syura-floating-nav-style-v13';
   var lastHeight = 0;
