@@ -10,24 +10,134 @@
     portfolioAreas: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=527258077&single=true&output=csv',
     portfolioPrices: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=593038740&single=true&output=csv',
     portfolioImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=0&single=true&output=csv',
+    portfolioSubPackageImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=654441059&single=true&output=csv',
+    portfolioBottomBannerImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=703288315&single=true&output=csv',
     portfolioBadgeImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=598002765&single=true&output=csv',
+    portfolioFaceEmojiImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1397775084&single=true&output=csv',
     portfolioEmojiImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1099663677&single=true&output=csv',
     portfolioMoveEmojiImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1293209114&single=true&output=csv',
     portfolioOgqImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1227183664&single=true&output=csv',
     portfolioFacialChartImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1630494617&single=true&output=csv',
     portfolioFanCharImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=520864347&single=true&output=csv',
     portfolioSdIllustImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1777463947&single=true&output=csv',
-    portfolioGifTalkImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1621408550&single=true&output=csv',
     portfolioDonaImageImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1331595230&single=true&output=csv',
-    portfolioLdIllustImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=253758500&single=true&output=csv',
-    portfolioOverlayImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=2045618008&single=true&output=csv',
-    portfolioVAnimalImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=348143665&single=true&output=csv',
-    portfolioVNyahImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=1193239419&single=true&output=csv'
+    portfolioLdIllustImages: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7WOJ_VPL_FvMxGcA6JOJ5QoLbcGUPGTU4YR5c7P7TDtq8m45qDGJU9mzIBTkyARvun0FWtUYmKiJ/pub?gid=253758500&single=true&output=csv'
   };
 
-  var requestOptions = ['구독종합패키지','구독뱃지','구독티콘','움짤티콘','OGQ','페이셜차트','후원이미지(치즈냠)','후원이미지(커스텀)','팬캐릭터(시트지)','팬캐릭터(디자인)','팬캐릭터(시트지+디자인)','짚톡','SD','LD','방송화면','멍멍냥냥','메롱SD'];
+  var requestOptions = ['구독종합패키지','구독패키지','구독뱃지','표정티콘','구독티콘','움짤티콘','OGQ','페이셜차트','후원이미지(치즈냠)','후원이미지(커스텀)','하단배너','팬캐릭터(시트지)','팬캐릭터(디자인)','팬캐릭터(시트지+디자인)','SD','LD'];
   var qtyOptions = ['구독뱃지','구독티콘','페이셜차트'];
-  var collabOptions = ['멍멍냥냥','메롱SD'];
+  // Removed portfolio sections: 짚톡 / 방송화면 / 버츄얼
+  var removedPortfolioAreaIds = ['gif_talk','giftalk','ziptalk','zip_talk','v_animal','animal_virtual','mungnyang','dogcat','v_nyah','sd_virtual','virtual_sd','overlay','broadcast_overlay','screen'];
+
+  function isRemovedPortfolioArea(areaId) {
+    return removedPortfolioAreaIds.indexOf(safe(areaId).toLowerCase()) > -1;
+  }
+
+  // 2026-09 manual portfolio patch
+  // 새 이미지 시트가 준비되기 전까지 섹션/설명/가격/순서는 코드에서 먼저 관리한다.
+  var MANUAL_AREA_IDS = {
+    package: 'package',
+    subPackage: 'sub_package',
+    badge: 'badge',
+    expression: 'face_emoji',
+    emoji: 'emoji',
+    moveEmoji: 'move_emoji',
+    ogq: 'ogq',
+    facial: 'facial_chart',
+    donation: 'dona_image',
+    bottomBanner: 'bottom_banner',
+    fanChar: 'fan_char',
+    sd: 'sd_illust',
+    ld: 'ld_illust'
+  };
+
+  var PORTFOLIO_ORDER = [
+    MANUAL_AREA_IDS.package,
+    MANUAL_AREA_IDS.subPackage,
+    MANUAL_AREA_IDS.badge,
+    MANUAL_AREA_IDS.expression,
+    MANUAL_AREA_IDS.emoji,
+    MANUAL_AREA_IDS.moveEmoji,
+    MANUAL_AREA_IDS.ogq,
+    MANUAL_AREA_IDS.facial,
+    MANUAL_AREA_IDS.donation,
+    MANUAL_AREA_IDS.bottomBanner,
+    MANUAL_AREA_IDS.fanChar,
+    MANUAL_AREA_IDS.sd,
+    MANUAL_AREA_IDS.ld
+  ];
+
+  var MANUAL_AREAS = [
+    { area_id: MANUAL_AREA_IDS.subPackage, title: '구독패키지', desc: '구독티콘5개+움짤티콘5개 패키지입니다', active: 'TRUE', c_main: '10', c_grid: '5' },
+    { area_id: MANUAL_AREA_IDS.expression, title: '표정티콘', desc: '완전얼빡! 귀여운 표정티콘입니다', active: 'TRUE', c_main: '5', c_grid: '5' },
+    { area_id: MANUAL_AREA_IDS.bottomBanner, title: '하단배너', desc: '나만의 방이 하단배너로! 반복형으로 심플하게!', active: 'TRUE', c_main: '6', c_grid: '3' }
+  ];
+
+  function areaOrder(areaId) {
+    var idx = PORTFOLIO_ORDER.indexOf(safe(areaId));
+    return idx > -1 ? idx : PORTFOLIO_ORDER.length + 100;
+  }
+
+  function upsertManualArea(areas, patch) {
+    var idx = areas.findIndex(function (row) { return safe(row.area_id) === safe(patch.area_id); });
+    if (idx > -1) areas[idx] = Object.assign({}, areas[idx], patch);
+    else areas.push(Object.assign({}, patch));
+  }
+
+  function preparePortfolioAreas(rows) {
+    var areas = (rows || []).filter(function (row) {
+      return safe(row.area_id) && !isRemovedPortfolioArea(row.area_id);
+    }).map(function (row) { return Object.assign({}, row); });
+
+    // 기존 구독패키지는 구독종합패키지로 이름만 변경한다.
+    areas.forEach(function (area) {
+      if (safe(area.area_id) === MANUAL_AREA_IDS.package) area.title = '구독종합패키지';
+    });
+
+    MANUAL_AREAS.forEach(function (area) { upsertManualArea(areas, area); });
+
+    return areas.sort(function (a, b) {
+      var diff = areaOrder(a.area_id) - areaOrder(b.area_id);
+      if (diff) return diff;
+      return Number(a.order || 0) - Number(b.order || 0);
+    });
+  }
+
+  function preparePortfolioPrices(rows) {
+    var prices = (rows || []).filter(function (row) { return !isRemovedPortfolioArea(row.area_id); }).map(function (row) { return Object.assign({}, row); });
+
+    // 구독티콘: 기존 가격은 유지하고 10개 세트만 코드에서 확정값으로 덮어쓴다.
+    prices = prices.filter(function (row) {
+      if (safe(row.area_id) !== MANUAL_AREA_IDS.emoji) return true;
+      return !/10\s*개/.test(safe(row.label || row.title));
+    });
+    prices.push({ area_id: MANUAL_AREA_IDS.emoji, group: '기본', label: '10개 세트', price: '120000' });
+
+    // 움짤티콘: 요청받은 새 가격표 3종으로 교체한다.
+    prices = prices.filter(function (row) { return safe(row.area_id) !== MANUAL_AREA_IDS.moveEmoji; });
+    prices.push(
+      { area_id: MANUAL_AREA_IDS.moveEmoji, group: '기본', label: '단품', price: '25000' },
+      { area_id: MANUAL_AREA_IDS.moveEmoji, group: '기본', label: '5개 세트', price: '120000' },
+      { area_id: MANUAL_AREA_IDS.moveEmoji, group: '기본', label: '10개 세트', price: '190000' }
+    );
+
+    // 새 섹션들은 이미지 시트와 무관하게 설명/가격부터 노출한다.
+    prices = prices.filter(function (row) {
+      return [MANUAL_AREA_IDS.subPackage, MANUAL_AREA_IDS.expression, MANUAL_AREA_IDS.bottomBanner].indexOf(safe(row.area_id)) === -1;
+    });
+    prices.push(
+      { area_id: MANUAL_AREA_IDS.subPackage, group: '기본', label: '구독패키지', desc: '구독티콘 5개 + 움짤티콘 5개', price: '180000' },
+      { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '단품', price: '10000' },
+      { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '표정 추가', price: '5000' },
+      { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '10개 세트', price: '45000' },
+      { area_id: MANUAL_AREA_IDS.bottomBanner, group: '룸타입', label: '기본', price: '50000' },
+      { area_id: MANUAL_AREA_IDS.bottomBanner, group: '룸타입', label: '구도 변경', price: '10000' },
+      { area_id: MANUAL_AREA_IDS.bottomBanner, group: '반복형', label: '기본', price: '30000' },
+      { area_id: MANUAL_AREA_IDS.bottomBanner, group: '반복형', label: '플랫폼 추가', price: '5000' }
+    );
+
+    return prices;
+  }
 
   function qs(sel) { return document.querySelector(sel); }
   function el(tag, className, text) { var node = document.createElement(tag); if (className) node.className = className; if (text != null) node.textContent = text; return node; }
@@ -374,7 +484,7 @@
     img.loading = 'lazy';
     img.onerror = function () { card.classList.add('image-error'); };
     card.appendChild(img);
-    var noCaptionAreas = ['package', 'badge', 'emoji', 'move_emoji', 'ogq', 'gif_talk'];
+    var noCaptionAreas = ['package', 'sub_package', 'badge', 'face_emoji', 'emoji', 'move_emoji', 'ogq'];
     var showCaption = noCaptionAreas.indexOf(safe(area.area_id)) === -1;
 
     if (showCaption && (item.title || item.category)) {
@@ -797,6 +907,15 @@
         cols: 1,
         className: 'vtuber-main-grid show-captions'
       }));
+    } else if (areaId === 'face_emoji') {
+      // 표정티콘은 c_main/c_grid를 '최대값'으로 사용한다.
+      // 샘플이 3개뿐이면 3개만 자연스럽게 한 줄에 표시하고,
+      // 추후 5개가 채워지면 자동으로 5열까지 확장된다.
+      var faceCols = Math.max(1, Math.min(cols, mains.length || cols));
+      outer.appendChild(renderImageGrid(mains, area, {
+        keepOrder: true,
+        cols: faceCols
+      }));
     } else {
       var mainClass = (areaId === 'ld_illust' || areaId === 'overlay') ? 'show-captions' : '';
       outer.appendChild(renderImageGrid(mains, area, {
@@ -894,9 +1013,9 @@
   }
 
   function renderPortfolio(data) {
-    portfolioState.areas = (data[0] || []).filter(function (row) { return safe(row.area_id); }).sort(function (a, b) { return Number(a.order || 0) - Number(b.order || 0); });
-    portfolioState.prices = data[1] || [];
-    portfolioState.images = data[2] || [];
+    portfolioState.areas = preparePortfolioAreas(data[0] || []);
+    portfolioState.prices = preparePortfolioPrices(data[1] || []);
+    portfolioState.images = (data[2] || []).filter(function (row) { return !isRemovedPortfolioArea(row.area_id); });
     portfolioState.current = '';
     renderPortfolioTabs();
     renderPortfolioArea();
@@ -924,9 +1043,6 @@
   }
 
   function syncFormDetails() {
-    var checked = selectedOptions();
-    qs('[data-zip-fields]').hidden = checked.indexOf('짚톡') === -1;
-    qs('[data-collab-fields]').hidden = !checked.some(function (x) { return collabOptions.indexOf(x) > -1; });
     Array.prototype.slice.call(document.querySelectorAll('input[type="number"][name^="qty_"]')).forEach(function (qty) {
       var name = qty.name.replace('qty_', '');
       var related = qs('input[name="option"][value="' + name + '"]');
@@ -939,10 +1055,6 @@
   function buildCopyText() {
     var form = qs('#requestForm');
     var options = selectedOptions();
-    var zip = Array.prototype.slice.call(document.querySelectorAll('input[name="zipOption"]:checked')).map(function (x) { return x.value; });
-    var collab = Array.prototype.slice.call(document.querySelectorAll('input[name="collabConfirm"]:checked')).map(function (x) { return x.value; });
-    if (zip.length) options.push('짚톡 옵션: ' + zip.join(', '));
-    if (collab.length) options.push(collab.join(', '));
     var contact = qs('input[name="contact"]:checked');
     return ['＊ 활동명/플랫폼: ' + safe(form.activity.value) + ' / ' + safe(form.platform.value),'＊ 신청 옵션: ' + (options.join(', ') || '-'),'＊ 소통 방식: ' + (contact ? contact.value : '-'),'＊ 세부 내용: ' + (safe(form.detail.value) || '-'),'＊ 의뢰 내용: ' + (safe(form.request.value) || '-'),'＊ 질문 사항: ' + (safe(form.question.value) || '-')].join('\n');
   }
@@ -958,10 +1070,39 @@
     syncFormDetails();
   }
 
-  function sendHeight() {
-    var height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-    parent.postMessage({ type: 'SIWOL_IFRAME_HEIGHT', height: height }, '*');
+  var lastSentHeight = 0;
+  var heightSendTimer = null;
+
+  function getContentHeight() {
+    var page = document.getElementById('page') || document.querySelector('.siwol-page');
+    if (!page) return 0;
+
+    var rect = page.getBoundingClientRect();
+    return Math.ceil(Math.max(
+      page.scrollHeight || 0,
+      page.offsetHeight || 0,
+      rect ? rect.height : 0
+    ));
   }
+
+  function sendHeight() {
+    var height = getContentHeight();
+    if (!height || Math.abs(height - lastSentHeight) < 2) return;
+    lastSentHeight = height;
+
+    // 실제 콘텐츠 높이만 부모에 전달한다.
+    // html/body의 높이는 iframe 자체 높이의 영향을 받을 수 있어 측정하지 않는다.
+    parent.postMessage({ type: 'SIWOL_IFRAME_HEIGHT', height: height }, '*');
+    parent.postMessage({ source: 'syura-css', type: 'SYURA_IFRAME_HEIGHT', height: height }, '*');
+  }
+
+  function scheduleHeight() {
+    clearTimeout(heightSendTimer);
+    heightSendTimer = setTimeout(sendHeight, 60);
+  }
+
+  // 다른 브리지 코드에서 호출하던 공개 함수 이름은 호환성 때문에 유지한다.
+  window.siwolSendHeight = sendHeight;
 
   function handleMessage(event) {
     var data = event.data || {};
@@ -977,6 +1118,45 @@
     target.style.setProperty('--tip-y', event.clientY + 'px');
   }
 
+  // 포트폴리오 샘플 시트는 각각 독립적으로 로드한다.
+  // 특정 샘플 시트가 삭제/비공개/일시 오류 상태여도 나머지 포트폴리오는 정상 표시된다.
+  function loadPortfolioImageSheets() {
+    var imageSheets = [
+      { url: SHEETS.portfolioImages },
+      { url: SHEETS.portfolioSubPackageImages },
+      { url: SHEETS.portfolioBottomBannerImages },
+      { url: SHEETS.portfolioBadgeImages },
+      { url: SHEETS.portfolioFaceEmojiImages },
+      { url: SHEETS.portfolioEmojiImages },
+      { url: SHEETS.portfolioMoveEmojiImages },
+      { url: SHEETS.portfolioOgqImages },
+      { url: SHEETS.portfolioFacialChartImages },
+      { url: SHEETS.portfolioDonaImageImages },
+      { url: SHEETS.portfolioFanCharImages },
+      { url: SHEETS.portfolioSdIllustImages },
+      { url: SHEETS.portfolioLdIllustImages }
+    ].filter(function (sheet) { return !!sheet.url; });
+
+    return Promise.allSettled(imageSheets.map(function (sheet) {
+      return fetchCSV(sheet.url).then(function (rows) {
+        if (!sheet.areaId) return rows || [];
+        return (rows || []).map(function (row) {
+          return Object.assign({}, row, { area_id: sheet.areaId });
+        });
+      });
+    })).then(function (results) {
+      var sets = [];
+      results.forEach(function (result, index) {
+        if (result.status === 'fulfilled') {
+          sets.push(result.value || []);
+        } else {
+          console.warn('portfolio image sheet load failed', index, result.reason);
+        }
+      });
+      return [].concat.apply([], sets);
+    });
+  }
+
   function loadAll() {
     initForm();
     Promise.allSettled([
@@ -987,7 +1167,7 @@
       fetchCSV(SHEETS.process).then(renderProcess),
       fetchCSV(SHEETS.notice).then(renderNotice),
       fetchCSV(SHEETS.usage, 'usage').then(renderUsage),
-      Promise.all([fetchCSV(SHEETS.portfolioAreas), fetchCSV(SHEETS.portfolioPrices), Promise.all([fetchCSV(SHEETS.portfolioImages), fetchCSV(SHEETS.portfolioBadgeImages), fetchCSV(SHEETS.portfolioEmojiImages), fetchCSV(SHEETS.portfolioMoveEmojiImages), fetchCSV(SHEETS.portfolioOgqImages), fetchCSV(SHEETS.portfolioFacialChartImages), fetchCSV(SHEETS.portfolioFanCharImages), fetchCSV(SHEETS.portfolioSdIllustImages), fetchCSV(SHEETS.portfolioGifTalkImages), fetchCSV(SHEETS.portfolioDonaImageImages), fetchCSV(SHEETS.portfolioLdIllustImages), fetchCSV(SHEETS.portfolioOverlayImages), fetchCSV(SHEETS.portfolioVAnimalImages), fetchCSV(SHEETS.portfolioVNyahImages)]).then(function (sets) { return [].concat.apply([], sets.map(function (set) { return set || []; })); })]).then(renderPortfolio)
+      Promise.all([fetchCSV(SHEETS.portfolioAreas), fetchCSV(SHEETS.portfolioPrices), loadPortfolioImageSheets()]).then(renderPortfolio)
     ]).then(function (results) {
       var map = ['artist','works','calendar','schedule','process','notice','usage','portfolio'];
       results.forEach(function (r, i) {
@@ -1000,99 +1180,12 @@
   window.addEventListener('message', handleMessage);
   window.addEventListener('mousemove', syncReadyTooltip);
   window.addEventListener('load', loadAll);
-  window.addEventListener('resize', sendHeight);
-  if ('ResizeObserver' in window) new ResizeObserver(sendHeight).observe(document.body);
-
-/* v50: robust iframe height sender */
-(function(){
-  if (window.__siwolHeightSenderV50) return;
-  window.__siwolHeightSenderV50 = true;
-
-  function siwolGetHeight(){
-    var body = document.body;
-    var html = document.documentElement;
-
-    return Math.max(
-      body ? body.scrollHeight : 0,
-      html ? html.scrollHeight : 0,
-      body ? body.offsetHeight : 0,
-      html ? html.offsetHeight : 0,
-      body ? body.getBoundingClientRect().height : 0,
-      html ? html.getBoundingClientRect().height : 0
-    );
-  }
-
-  function siwolSendHeight(){
-    window.parent.postMessage({
-      source:'syura-css',
-      type:'SYURA_IFRAME_HEIGHT',
-      height:siwolGetHeight()
-    }, '*');
-  }
-
-  function siwolSendReady(){
-    window.parent.postMessage({
-      source:'syura-css',
-      type:'SYURA_IFRAME_READY'
-    }, '*');
-    siwolSendHeight();
-  }
-
-  window.addEventListener('load', function(){
-    siwolSendReady();
-    [50,150,350,700,1200,2000,3500].forEach(function(ms){
-      setTimeout(siwolSendHeight, ms);
-    });
-  });
-
-  window.addEventListener('resize', function(){
-    siwolSendHeight();
-    setTimeout(siwolSendHeight, 200);
-  });
-
-  document.addEventListener('toggle', function(e){
-    if(e.target && e.target.tagName === 'DETAILS'){
-      [30,120,260,600].forEach(function(ms){
-        setTimeout(siwolSendHeight, ms);
-      });
-    }
-  }, true);
-
-  document.addEventListener('click', function(){
-    requestAnimationFrame(siwolSendHeight);
-    setTimeout(siwolSendHeight, 240);
-  }, true);
-
+  window.addEventListener('resize', scheduleHeight);
   if ('ResizeObserver' in window) {
-    var ro = new ResizeObserver(function(){
-      siwolSendHeight();
-    });
-    if (document.documentElement) ro.observe(document.documentElement);
-    if (document.body) ro.observe(document.body);
+    var heightTarget = document.getElementById('page') || document.querySelector('.siwol-page');
+    if (heightTarget) new ResizeObserver(scheduleHeight).observe(heightTarget);
   }
 
-  if ('MutationObserver' in window) {
-    var mo = new MutationObserver(function(){
-      siwolSendHeight();
-    });
-    mo.observe(document.documentElement || document.body, {
-      childList:true,
-      subtree:true,
-      attributes:true,
-      attributeFilter:['open','style','class']
-    });
-  }
-
-  setInterval(siwolSendHeight, 1500);
-
-  if (document.readyState !== 'loading') {
-    siwolSendReady();
-    setTimeout(siwolSendHeight, 100);
-    setTimeout(siwolSendHeight, 500);
-  } else {
-    document.addEventListener('DOMContentLoaded', siwolSendReady);
-  }
-})();
 
 })();
 
@@ -1112,20 +1205,19 @@
     { id:'notice', title:'공지사항' },
     { id:'usage', title:'사용 범위' },
     { id:'portfolio', title:'포트폴리오' },
-    { id:'portfolio:package', title:'구독 패키지', parent:'portfolio', areaIds:['package','subscribe_package','sub_package'] },
+    { id:'portfolio:package', title:'구독종합패키지', parent:'portfolio', areaIds:['package'] },
+    { id:'portfolio:sub_package', title:'구독패키지', parent:'portfolio', areaIds:['sub_package'] },
     { id:'portfolio:badge', title:'구독 뱃지', parent:'portfolio', areaIds:['badge','subscribe_badge'] },
+    { id:'portfolio:face_emoji', title:'표정티콘', parent:'portfolio', areaIds:['face_emoji'] },
     { id:'portfolio:emoji', title:'구독티콘', parent:'portfolio', areaIds:['emoji','subscribe_emoji'] },
     { id:'portfolio:move_emoji', title:'움짤티콘', parent:'portfolio', areaIds:['move_emoji','moving_emoji','gif_emoji'] },
     { id:'portfolio:ogq', title:'OGQ', parent:'portfolio', areaIds:['ogq'] },
     { id:'portfolio:facial_chart', title:'페이셜 차트', parent:'portfolio', areaIds:['facial_chart','facialchart','face_chart'] },
     { id:'portfolio:dona_image', title:'후원 이미지', parent:'portfolio', areaIds:['dona_image','donation_image','donation'] },
+    { id:'portfolio:bottom_banner', title:'하단배너', parent:'portfolio', areaIds:['bottom_banner'] },
     { id:'portfolio:fan_char', title:'팬 캐릭터', parent:'portfolio', areaIds:['fan_char','fan_character'] },
-    { id:'portfolio:gif_talk', title:'짚톡', parent:'portfolio', areaIds:['gif_talk','giftalk','ziptalk','zip_talk'] },
     { id:'portfolio:sd_illust', title:'SD 일러스트', parent:'portfolio', areaIds:['sd_illust','sd'] },
     { id:'portfolio:ld_illust', title:'LD 일러스트', parent:'portfolio', areaIds:['ld_illust','ld'] },
-    { id:'portfolio:overlay', title:'방송 화면', parent:'portfolio', areaIds:['overlay','broadcast_overlay','screen'] },
-    { id:'portfolio:v_animal', title:'멍냥 버츄얼', parent:'portfolio', areaIds:['v_animal','animal_virtual','mungnyang','dogcat'] },
-    { id:'portfolio:v_nyah', title:'SD 버츄얼', parent:'portfolio', areaIds:['v_nyah','sd_virtual','virtual_sd'] },
     { id:'form', title:'신청 양식' }
   ];
 
@@ -1238,14 +1330,11 @@
   }
 
   function sendHeightSoon(){
-    if (typeof window.siwolSendHeight === 'function') window.siwolSendHeight();
-    [80, 240, 600].forEach(function(ms){
+    // 스크롤 증가 루프 방지를 위해 html/body 높이를 다시 측정하지 않는다.
+    // 통합된 실제 콘텐츠 높이 측정 함수만 재호출한다.
+    [0, 80, 240, 600].forEach(function(ms){
       setTimeout(function(){
-        var height = Math.max(
-          document.body ? document.body.scrollHeight : 0,
-          document.documentElement ? document.documentElement.scrollHeight : 0
-        );
-        window.parent.postMessage({ source:'syura-css', type:'SYURA_IFRAME_HEIGHT', height:height }, '*');
+        if (typeof window.siwolSendHeight === 'function') window.siwolSendHeight();
       }, ms);
     });
   }
@@ -1286,74 +1375,4 @@
 
 
 
-(function(){
- if(window.__siwolIOSHeightFix)return;
- window.__siwolIOSHeightFix=true;
- function getHeight(){
-  return Math.max(
-   document.body?document.body.scrollHeight:0,
-   document.documentElement?document.documentElement.scrollHeight:0,
-   document.body?document.body.offsetHeight:0,
-   document.documentElement?document.documentElement.offsetHeight:0
-  );
- }
- function sendHeight(){
-  try{
-   window.parent.postMessage({
-    source:'syura-css',
-    type:'SYURA_IFRAME_HEIGHT',
-    height:getHeight()
-   },'*');
-  }catch(e){}
- }
- window.addEventListener('load',function(){
-  [100,300,700,1200,2000,3500].forEach(ms=>setTimeout(sendHeight,ms));
- });
- window.addEventListener('resize',sendHeight);
- if(window.visualViewport){
-  window.visualViewport.addEventListener('resize',sendHeight);
-  window.visualViewport.addEventListener('scroll',sendHeight);
- }
- setInterval(sendHeight,1500);
-})();
 
-/* v60: ArtMug iOS iframe height bridge - unified sender */
-(function(){
-  if(window.__siwolHeightBridgeV60)return;
-  window.__siwolHeightBridgeV60=true;
-  var last=0;
-  var timer=null;
-  function h(){
-    var b=document.body, d=document.documentElement, p=document.getElementById('page')||document.querySelector('.siwol-page');
-    return Math.ceil(Math.max(
-      b?b.scrollHeight:0,d?d.scrollHeight:0,b?b.offsetHeight:0,d?d.offsetHeight:0,
-      b?b.getBoundingClientRect().height:0,d?d.getBoundingClientRect().height:0,p?p.scrollHeight:0,p?p.offsetHeight:0,p?p.getBoundingClientRect().height:0
-    ));
-  }
-  function send(){
-    var height=h()+40;
-    if(height<700)height=700;
-    if(Math.abs(height-last)<2)return;
-    last=height;
-    try{window.parent.postMessage({source:'syura-css',type:'SYURA_IFRAME_HEIGHT',height:height},'https://www.artmug.kr');}catch(e){}
-    try{window.parent.postMessage({source:'syura-css',type:'SYURA_IFRAME_HEIGHT',height:height},'https://artmug.kr');}catch(e){}
-    try{window.parent.postMessage({source:'syura-css',type:'SYURA_IFRAME_HEIGHT',height:height},'*');}catch(e){}
-  }
-  function soon(){
-    clearTimeout(timer);
-    timer=setTimeout(send,60);
-    [160,360,800,1500,2600,4200].forEach(function(ms){setTimeout(send,ms);});
-  }
-  window.siwolSendHeight=send;
-  window.addEventListener('load',soon);
-  window.addEventListener('resize',soon);
-  window.addEventListener('orientationchange',soon);
-  document.addEventListener('click',soon,true);
-  document.addEventListener('toggle',soon,true);
-  document.addEventListener('load',soon,true);
-  if(window.visualViewport){window.visualViewport.addEventListener('resize',soon);window.visualViewport.addEventListener('scroll',soon);}
-  if('ResizeObserver' in window){try{new ResizeObserver(soon).observe(document.documentElement);new ResizeObserver(soon).observe(document.body);}catch(e){}}
-  if('MutationObserver' in window){try{new MutationObserver(soon).observe(document.documentElement,{childList:true,subtree:true,attributes:true,characterData:true});}catch(e){}}
-  soon();
-  setInterval(send,1200);
-})();

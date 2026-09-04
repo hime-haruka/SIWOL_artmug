@@ -17,20 +17,19 @@
   ];
 
   var PORTFOLIO_ITEMS = [
-    { id: 'portfolio:package', label: '구독 패키지', key: 'package' },
+    { id: 'portfolio:package', label: '구독종합패키지', key: 'package' },
+    { id: 'portfolio:sub_package', label: '구독패키지', key: 'sub_package' },
     { id: 'portfolio:badge', label: '구독 뱃지', key: 'badge' },
+    { id: 'portfolio:face_emoji', label: '표정티콘', key: 'face_emoji' },
     { id: 'portfolio:emoji', label: '구독티콘', key: 'emoji' },
     { id: 'portfolio:move_emoji', label: '움짤티콘', key: 'move_emoji' },
     { id: 'portfolio:ogq', label: 'OGQ', key: 'ogq' },
     { id: 'portfolio:facial_chart', label: '페이셜 차트', key: 'facial_chart' },
     { id: 'portfolio:dona_image', label: '후원 이미지', key: 'donation' },
+    { id: 'portfolio:bottom_banner', label: '하단배너', key: 'bottom_banner' },
     { id: 'portfolio:fan_char', label: '팬 캐릭터', key: 'fan_character' },
-    { id: 'portfolio:gif_talk', label: '짚톡', key: 'ziptalk' },
     { id: 'portfolio:sd_illust', label: 'SD 일러스트', key: 'sd_illust' },
-    { id: 'portfolio:ld_illust', label: 'LD 일러스트', key: 'ld_illust' },
-    { id: 'portfolio:overlay', label: '방송 화면', key: 'overlay' },
-    { id: 'portfolio:v_animal', label: '멍냥 버츄얼', key: 'virtual_animal' },
-    { id: 'portfolio:v_nyah', label: 'SD 버츄얼', key: 'virtual_sd' }
+    { id: 'portfolio:ld_illust', label: 'LD 일러스트', key: 'ld_illust' }
   ];
 
   function injectStyle() {
@@ -381,18 +380,8 @@ function setIframeHeight(height) {
   var raw = Math.ceil(Number(height) || 0);
   if (!raw) return;
 
-  var isMobile = (window.innerWidth || document.documentElement.clientWidth || 0) <= 900;
-  var buffer = isMobile ? 180 : 0;
-
-  if (lastHeight && raw >= lastHeight - 5 && raw <= lastHeight + 300) {
-    return;
-  }
-
-  var next = Math.max(700, raw + buffer);
-
-  if (lastHeight && Math.abs(next - lastHeight) < 30) {
-    return;
-  }
+  var next = Math.max(700, raw);
+  if (lastHeight && Math.abs(next - lastHeight) < 2) return;
 
   iframe.style.height = next + 'px';
   iframe.style.minHeight = next + 'px';
