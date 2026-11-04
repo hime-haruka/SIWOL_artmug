@@ -121,20 +121,28 @@
       { area_id: MANUAL_AREA_IDS.moveEmoji, group: '기본', label: '10개 세트', price: '190000' }
     );
 
-    // 새 섹션들은 이미지 시트와 무관하게 설명/가격부터 노출한다.
+    // 구독패키지와 하단배너는 기존 코드 고정 가격을 유지한다.
+    // 표정티콘은 스프레드시트의 가격표를 우선 사용해 수정이 반영되도록 한다.
     prices = prices.filter(function (row) {
-      return [MANUAL_AREA_IDS.subPackage, MANUAL_AREA_IDS.expression, MANUAL_AREA_IDS.bottomBanner].indexOf(safe(row.area_id)) === -1;
+      return [MANUAL_AREA_IDS.subPackage, MANUAL_AREA_IDS.bottomBanner].indexOf(safe(row.area_id)) === -1;
     });
     prices.push(
       { area_id: MANUAL_AREA_IDS.subPackage, group: '기본', label: '구독패키지', desc: '구독티콘 5개 + 움짤티콘 5개', price: '180000' },
-      { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '단품', price: '10000' },
-      { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '표정 추가', price: '5000' },
-      { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '10개 세트', price: '45000' },
       { area_id: MANUAL_AREA_IDS.bottomBanner, group: '룸타입', label: '기본', price: '50000' },
       { area_id: MANUAL_AREA_IDS.bottomBanner, group: '룸타입', label: '구도 변경', price: '10000' },
       { area_id: MANUAL_AREA_IDS.bottomBanner, group: '반복형', label: '기본', price: '30000' },
       { area_id: MANUAL_AREA_IDS.bottomBanner, group: '반복형', label: '플랫폼 추가', price: '5000' }
     );
+
+    // 아직 시트에 표정티콘 가격표가 등록되지 않은 경우에만 기존 기본값을 표시한다.
+    // 시트에서 area_id를 face_emoji로 설정해 행을 추가하면 이 기본값 대신 해당 행을 사용한다.
+    if (!prices.some(function (row) { return safe(row.area_id) === MANUAL_AREA_IDS.expression; })) {
+      prices.push(
+        { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '단품', price: '10000' },
+        { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '표정 추가', price: '5000' },
+        { area_id: MANUAL_AREA_IDS.expression, group: '기본', label: '10개 세트', price: '45000' }
+      );
+    }
 
     return prices;
   }
